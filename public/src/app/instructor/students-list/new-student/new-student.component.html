@@ -1,0 +1,34 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Inregistreaza Elev
+      </mat-panel-title>
+      <mat-panel-description>
+        Completeaza datele personale
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <form  #form="ngForm">
+      <mat-form-field>
+        <input ngModel name="firstName" id="firstName" matInput placeholder="Nume">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input ngModel name="lastName" matInput placeholder="Prenume">
+      </mat-form-field>
+      <mat-form-field>
+        <input ngModel name="phone" matInput placeholder="Telefon">
+      </mat-form-field>
+      <mat-form-field>
+        <input ngModel name="email" matInput placeholder="Email">
+      </mat-form-field>
+      <mat-form-field>
+        <input ngModel name="password" type="password" matInput placeholder="Parola de acces">
+      </mat-form-field>
+      <mat-form-field>
+        <input ngModel name="password2" type="password" matInput placeholder="Repeta parola">
+      </mat-form-field>
+    </form>
+    <button mat-button (click)="onRegisterStudent(form)">Trimite</button>
+  </mat-expansion-panel>
+</mat-accordion>

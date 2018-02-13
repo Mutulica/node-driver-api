@@ -1,0 +1,18 @@
+
+<app-new-student></app-new-student>
+
+<mat-card class="example-card" *ngFor="let student of students">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{student.firstName}} {{student.lastName}}</mat-card-title>
+    <mat-card-subtitle>{{student.phone}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{student.email}}</p>
+    <p *ngFor="let session of student.sessions">{{session.sessionDate}} {{session.duration}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="onDetails(student._id)">Detalii</button>
+    <button mat-button>SHARE</button>
+  </mat-card-actions>
+</mat-card>
