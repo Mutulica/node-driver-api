@@ -11,6 +11,8 @@ export class InstructorService {
 
   public studentsList: Object[] = [];
   public studentDetails: Object = {};
+  // public allAppointments: Object[] = [];
+
   constructor(private http: Http){}
   token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTgwNjkyMzEwYzJkYzBlNDhiYzAyNTAiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE4MzY0OTYzfQ.OOqiiw5CGLme05ASkKne6xM-pRnOS2gUfHSYlMvezao';
 
@@ -49,6 +51,16 @@ export class InstructorService {
 
   getAppointments(){
     return this.http.get('http://localhost:3000/instructor/schedule', this.option)
+      .map((res: Response) => {
+        // this.allAppointments = res.json();
+        // console.log(this.allAppointments);
+        return res.json();
+      })
+      .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
+  }
+
+  getUnconfirmedAppointments(){
+    return this.http.get('http://localhost:3000/instructor/schedule/unconfirmed', this.option)
       .map((res: Response) => res.json())
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
   }
@@ -56,5 +68,18 @@ export class InstructorService {
     return this.http.get('http://localhost:3000/instructor/schedule/' + id, this.option)
       .map((res: Response) => res.json())
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'))
+  }
+
+  //GET Instructor Details
+  getInstructorDetails(){
+    return this.http.get('http://localhost:3000/instructor/me', this.option)
+      .map((res: Response) => res.json())
+      .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
+  }
+
+  deleteStudentAppointment(id){
+    return this.http.delete('http://localhost:3000/schedule/delete/' + id, this.option)
+      .map((res: Response) => res.json())
+      .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
   }
 }

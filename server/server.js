@@ -36,6 +36,19 @@ app.post('/instructor', async (req, res) => {
   }
 });
 
+//Get Student profile
+app.get('/student/me', studentAuth, async (req, res) => {
+  var _id = req.user.id;
+  if(!ObjectID.isValid(_id)){
+    return res.status(404).send();
+  }
+  const student = await Student.findOne({_id});
+  if(!student){
+    return res.status(404).send('Student not found');
+  }
+  res.status(200).send(student);
+})
+
 //GET Isntructor details
 app.get('/instructor/me', autenticate, async (req, res) => {
   try {
@@ -81,13 +94,13 @@ app.get('/student/:id', autenticate, async (req, res) => {
     return res.status(200).send({message: 'Student ID not valid'});
   }
   try {
-    const student = await Student.find({_id, _instructorId: req.user._id});
+    const student = await Student.findOne({_id, _instructorId: req.user._id});
     if(!student){
       return res.status(200).send({
         message: "Student not found"
       });
     }
-    res.status(200).send(student[0]);
+    res.status(200).send(student);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -156,7 +169,6 @@ app.post('/student/schedule', studentAuth, async (req, res) => {
 
   try {
     const student = await Student.findOne({_id});
-    // console.log(student);
     if(!student){
       return res.status(404).send('Student not found');
     }
@@ -221,6 +233,24 @@ app.get('/instructor/schedule', autenticate, async (req, res) => {
   }
 });
 
+//GET Instructor schedule
+app.get('/instructor/schedule/unconfirmed', autenticate, async (req, res) => {
+  const _instructorId = req.user.id;
+  if(!ObjectID.isValid(_instructorId)){
+    return res.status(404).send('Instructor ID not valid');
+  }
+
+  try {
+    const schedule = await Schedule.find({_instructorId, confirmed: false});
+    if(!schedule){
+      return res.status(404).send('There are no appointments');
+    }
+    res.status(200).send(schedule);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
 //GET a student Appointments
 app.get('/instructor/schedule/:id', autenticate, async (req, res) => {
   const _instructorId = req.user.id;
@@ -252,12 +282,12 @@ app.post('/instructor/schedule', autenticate, async (req, res) => {
   try {
     const student = await Student.findOne({_id, _instructorId});
     if(!student){
-      return res.status(404).send('Student not found');
+      return res.status(404).send({message: 'Student not found'});
     }
 
     const date = await Schedule.findOne({date: req.body.date});
     if(date){
-      return res.status(200).send(`${req.body.date} is not available. Chose another date.`);
+      return res.status(200).send();
     }
     var obj = {
       _studentId: student._id,
@@ -275,9 +305,32 @@ app.post('/instructor/schedule', autenticate, async (req, res) => {
     res.status(200).send(appointment);
 
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).send({message: "Appointment could not be made!"});
   }
 });
+
+//instructor DELETE an Appointment
+app.delete('/schedule/delete/:id', autenticate, async (req, res) => {
+  const _id = req.params.id;
+  const _instructorId = req.user.id;
+
+  if(!ObjectID.isValid(_instructorId)){
+
+    return res.status(404).send();
+  }
+
+  try {
+    const date = await Schedule.deleteOne({_id, _instructorId});
+    if(date.n === 0){
+      return res.status(404).send('Appointment not found');
+    }
+    res.status(200).send(date);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+
+});
+
 
 app.listen(port, () => {
   console.log(`App is running on port ${port}`);

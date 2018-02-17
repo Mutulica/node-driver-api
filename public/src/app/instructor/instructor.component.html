@@ -1,5 +1,17 @@
-<mat-toolbar color="primary">
-  <button mat-button routerLink="students">Lista Elevi</button>
-  <button mat-button routerLink="schedule">Programari</button>
-</mat-toolbar>
-<router-outlet></router-outlet>
+<div class="wrapper">
+   <!-- Main Header -->
+  <app-instructor-header></app-instructor-header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <app-instructor-left-nav></app-instructor-left-nav>
+  <!-- Content Wrapper. Contains page content -->
+  <app-instructor-content></app-instructor-content>
+  <!-- /.content-wrapper -->
+  <!-- Main Footer -->
+  <app-starter-footer></app-starter-footer>
+  <!-- Control Sidebar -->
+  <app-instructor-control-sidebar></app-instructor-control-sidebar>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>

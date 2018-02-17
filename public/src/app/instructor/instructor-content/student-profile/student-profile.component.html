@@ -1,0 +1,137 @@
+  <div class="box box-widget widget-user">
+    <!-- Add the bg color to the header using any of the bg-* classes -->
+    <div class="widget-user-header bg-aqua-active">
+      <h3 class="widget-user-username">{{student.firstName}} {{student.lastName}}</h3>
+      <h5 class="widget-user-desc">Telefon: {{student.phone}}</h5>
+    </div>
+    <div class="widget-user-image">
+      <img class="img-circle" src="/assets/img/user1-128x128.jpg" alt="User Avatar">
+    </div>
+    <div class="box-footer">
+      <div class="row">
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <span class="description-text">Sedinte Efectuate</span>
+            <h5 class="description-header">8</h5>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <span class="description-text">Sedinte Ramase</span>
+            <h5 class="description-header">8</h5>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4">
+          <div class="description-block">
+            <span class="description-text">Urmatoarea Sedinta</span>
+            <h5 class="description-header">02/16/2018</h5>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+
+      </div>
+      <!-- /.row -->
+      <div class="col-md-12">
+        <div class="box-footer no-padding">
+
+          <div class="col-md-6">
+            <h3>Adauga Programare</h3>
+            <div class="form-group">
+              <label>Data si ora:</label>
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+
+                  <input [(ngModel)]="selectedMoment" [owlDateTimeTrigger]="dt9" [owlDateTime]="dt9"
+                         [owlDateTimeFilter]="myFilter">
+                  <owl-date-time #dt9 [firstDayOfWeek]="1"></owl-date-time>
+                  </div>
+              </div>
+            </div>
+            <button (click)="onChangeDate()" type="button" class="btn btn-block btn-primary">Adauga</button>
+          </div>
+
+          <div class="col-md-6">
+            <h3>Detalii</h3>
+            <ul class="nav nav-stacked">
+              <li><a href="#">Email: <span class="pull-right">{{student.email}}</span></a></li>
+              <li><a href="#">Examen <span class="pull-right badge bg-blue">{{student.registeredAt | date:'MMMM d, y'}}</span></a></li>
+              <li><a href="#">Inregistrat: <span class="pull-right badge bg-default">{{student.registeredAt | date:'MMMM d, y'}}</span></a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="">
+            <h3 class="box-title">Programari Viitoare</h3>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+              <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">Data</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Ora</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Actiuni</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let appointment of studentAppointments">
+                  <td>{{appointment.date | date:'MMMM d, y'}}</td>
+                  <td>{{appointment.date | date:'H: mm'}}</td>
+                  <td><button type="button" class="btn btn-warning btn-xs pull-left">Reprogrameaza</button><button (click)="onAppointmentDelte(appointment._id)" type="button" class="btn btn-danger btn-xs pull-right">Sterge</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+          </div>
+          <!-- /.box-body -->
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="">
+            <h3 class="box-title">Istoric Sedinte</h3>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+              <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">Data</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Ora</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let session of student.sessions">
+                  <td>{{session.date | date:'MMMM d, y'}}</td>
+                  <td>{{session.date | date:'H: mm'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+          </div>
+          <!-- /.box-body -->
+        </div>
+      </div>
+
+    </div>
+    <button routerLink="../" type="button" class="btn btn-block btn-primary">Inapoi</button>
+  </div>

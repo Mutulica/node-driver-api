@@ -1,10 +1,10 @@
-import { AppPage } from './app.po';
+import { AngularAdminLTEPage } from './app.po';
 
-describe('public App', () => {
-  let page: AppPage;
+describe('angular-admin-lte App', () => {
+  let page: AngularAdminLTEPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new AngularAdminLTEPage();
   });
 
   it('should display welcome message', () => {

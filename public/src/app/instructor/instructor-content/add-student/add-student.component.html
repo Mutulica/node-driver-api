@@ -1,0 +1,36 @@
+<div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Formular Inscriere</h3>
+    </div>
+    <div class="box-body">
+    <form #form="ngForm">
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+        <input type="text" ngModel name="firstName" class="form-control" placeholder="Nume">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+        <input ngModel type="text" name="lastName" class="form-control" placeholder="Prenume">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+        <input ngModel type="number" name="phone" class="form-control" placeholder="Telefon">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+        <input ngModel name="email" type="email" class="form-control" placeholder="Email">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+        <input ngModel type="password" name="password" class="form-control" placeholder="Parola">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+        <input ngModel type="password" name="password2" class="form-control" placeholder="Parola">
+      </div>
+    </form>
+    <div class="input-group">
+      <button class="btn btn-block btn-primary" (click)="onRegisterStudent(form)">Trimite</button>
+    </div>
+  </div>
+</div>

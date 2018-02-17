@@ -1,0 +1,44 @@
+<div class="col-md-4" *ngFor="let student of students">
+  <div class="box box-widget widget-user">
+    <!-- Add the bg color to the header using any of the bg-* classes -->
+    <div class="widget-user-header bg-aqua-active">
+      <h3 class="widget-user-username">{{student.firstName}} {{student.lastName}}</h3>
+      <h5 class="widget-user-desc">Telefon: {{student.phone}}</h5>
+    </div>
+    <div class="widget-user-image">
+      <img class="img-circle" src="/assets/img/user1-128x128.jpg" alt="User Avatar">
+    </div>
+    <div class="box-footer">
+      <div class="row">
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <span class="description-text">Sedinte Efectuate</span>
+            <h5 class="description-header">8</h5>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <span class="description-text">Sedinte Ramase</span>
+            <h5 class="description-header">8</h5>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4">
+          <div class="description-block">
+            <span class="description-text">Urmatoarea Sedinta</span>
+            <h5 class="description-header">02/16/2018</h5>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-12">
+          <button (click)="onSelectStudent(student._id)" type="button" class="btn btn-block btn-primary">Detalii</button>
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+  </div>
+</div>
