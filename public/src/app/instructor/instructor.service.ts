@@ -15,7 +15,7 @@ export class InstructorService {
   //public allAppointments: Object[] = [];
 
   constructor(private http: Http){}
-  token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTgwNjkyMzEwYzJkYzBlNDhiYzAyNTAiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE4MzY0OTYzfQ.OOqiiw5CGLme05ASkKne6xM-pRnOS2gUfHSYlMvezao';
+  token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg5ZmVkMjc1ODk2NDQyMjQ2ZmFhZDUiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE4OTkzMTA2fQ.rFzlVSkfXpS64l-cwat-a80Yf9S19_NHUHjK_1sV53k';
 
    headers: Headers = new Headers({
     'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export class InstructorService {
   });
 
   registerStudent(data){
-    return this.http.post('http://localhost:3000/student',data ,this.option)
+    return this.http.post('https://driving-school-app.herokuapp.com/student',data ,this.option)
       .map((res: Response) =>{ this.studentsList.push(res.json())})
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
   }
