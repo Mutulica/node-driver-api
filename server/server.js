@@ -15,7 +15,7 @@ var {studentAuth} = require('./middleweare/studentAuth');
 
 const router = express.Router();
 var app = express();
-var port = process.env.PORT;
+var port = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
