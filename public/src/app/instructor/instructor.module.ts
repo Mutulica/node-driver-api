@@ -19,6 +19,8 @@ import { StarterFooterComponent } from './starter-footer/starter-footer.componen
 import { StudentsComponent } from './instructor-content/students/students.component';
 import { AddStudentComponent } from './instructor-content/add-student/add-student.component';
 import { StudentProfileComponent } from './instructor-content/student-profile/student-profile.component';
+import { StudentAppointmentsComponent } from './instructor-content/student-profile/student-appointments/student-appointments.component';
+import { AddAppointmentComponent } from './instructor-content/student-profile/add-appointment/add-appointment.component';
 
 const router = [
   {path: 'instructor', component: InstructorComponent, children: [
@@ -55,7 +57,9 @@ const router = [
     InstructorControlSidebarComponent,
     StudentsComponent,
     AddStudentComponent,
-    StudentProfileComponent
+    StudentProfileComponent,
+    StudentAppointmentsComponent,
+    AddAppointmentComponent
   ]
 
 })

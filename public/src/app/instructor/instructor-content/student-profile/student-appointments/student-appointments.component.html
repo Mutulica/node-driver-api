@@ -1,0 +1,62 @@
+<div class="col-md-6">
+  <div class="">
+      <h3 class="box-title">Programari Viitoare</h3>
+    <!-- /.box-header -->
+    <div class="box-body">
+      <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+        <div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+        <thead>
+        <tr role="row">
+          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">Data</th>
+          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Ora</th>
+          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Actiuni</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let appointment of studentAppointments">
+            <td>{{appointment.date | date:'MMMM d, y'}}</td>
+            <td>{{appointment.date | date:'H: mm'}}</td>
+            <td>
+              <button type="button" class="btn btn-warning btn-xs pull-left">Reprogrameaza</button>
+              <button
+              (click)="onAppointmentId(appointment._id)"
+                type="button"
+                class="btn btn-danger btn-xs pull-right"
+                data-toggle="modal"
+                data-target="#modal-danger">
+                Anulare</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+    </div>
+    <!-- /.box-body -->
+  </div>
+</div>
+
+<div class="modal modal-danger fade" id="modal-danger" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Sterge Programarea</h4>
+      </div>
+      <div class="modal-body">
+        <p>Sunteti sigur ca doriti sa stergeti programarea?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Nu</button>
+        <button (click)="onAppointmentDelete()" type="button" class="btn btn-outline" data-dismiss="modal">DA</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

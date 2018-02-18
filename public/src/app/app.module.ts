@@ -11,6 +11,7 @@ import { InstructorModule} from './instructor/instructor.module';
 
 //Instructor services
 import { InstructorService } from './instructor/instructor.service';
+import {UtilsService } from './instructor/utils/utils.service';
 
 const router = [
   {path: '', component: AppComponent},
@@ -27,7 +28,7 @@ const router = [
     BrowserAnimationsModule,
     RouterModule.forRoot(router)
   ],
-  providers: [DatePipe, InstructorService],
+  providers: [DatePipe, InstructorService, UtilsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

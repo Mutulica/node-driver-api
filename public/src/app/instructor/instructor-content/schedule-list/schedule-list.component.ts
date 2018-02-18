@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
 import {InstructorService} from '../../instructor.service';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-schedule-list',
@@ -10,13 +12,15 @@ export class ScheduleListComponent implements OnInit {
 
   public appointments = [];
 
-  constructor(public instructorService: InstructorService) { }
+  constructor(
+    public instructorService: InstructorService,
+    private commonService: UtilsService
+  ) { }
 
   ngOnInit() {
     this.instructorService.getAppointments().subscribe(
       (res) => {
-        console.log(res);
-        this.appointments = res;
+        this.appointments = res.sort(this.commonService.orderDateDesc);
       }
     );
   }

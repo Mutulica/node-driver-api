@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 
+import { StudentDetails } from '../../models/student-details.model';
 import { InstructorService } from '../../instructor.service';
 
 @Component({
@@ -15,13 +16,14 @@ export class StudentsComponent implements OnInit {
     private router: Router
   ) { }
 
-  students = [];
+  students: StudentDetails[] = [] ;
 
   ngOnInit() {
     this.instructorService.getStudents()
       .subscribe(
-        (res : Object[]) => {
+        (res : StudentDetails[]) => {
           this.students = res;
+          console.log(res);
         },
         (err: any) => {
           console.log(err);
