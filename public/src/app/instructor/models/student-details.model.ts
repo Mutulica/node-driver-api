@@ -6,6 +6,6 @@ export class StudentDetails {
     public lastName: String,
     public email: String,
     public phone: Number,
-    public sessions?: any
+    public sessions: any
   ){}
 }

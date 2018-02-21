@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {InstructorService} from '../../instructor.service';
+import {InstructorHttpService} from '../../instructorHTTP.service';
 import { UtilsService } from '../../utils/utils.service';
 
 @Component({
@@ -13,12 +13,12 @@ export class ScheduleListComponent implements OnInit {
   public appointments = [];
 
   constructor(
-    public instructorService: InstructorService,
+    public instructorHttpService: InstructorHttpService,
     private commonService: UtilsService
   ) { }
 
   ngOnInit() {
-    this.instructorService.getAppointments().subscribe(
+    this.instructorHttpService.getAppointments().subscribe(
       (res) => {
         this.appointments = res.sort(this.commonService.orderDateDesc);
       }

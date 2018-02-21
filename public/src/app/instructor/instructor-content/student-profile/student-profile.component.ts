@@ -3,7 +3,7 @@ import { ActivatedRoute} from '@angular/router';
 
 import { StudentDetails } from '../../models/student-details.model';
 
-import { InstructorService } from '../../instructor.service';
+import { InstructorHttpService } from '../../instructorHTTP.service';
 
 @Component({
   selector: 'app-student-profile',
@@ -18,22 +18,20 @@ export class StudentProfileComponent implements OnInit {
 
     constructor(
       private route: ActivatedRoute,
-      public instructorService: InstructorService,
+      public instructorHttpService: InstructorHttpService,
     ) {
 
     }
 
   ngOnInit() {
-    this.instructorService.getStudent(this.studentId).subscribe(
+    this.instructorHttpService.getStudent(this.studentId).subscribe(
       (res) => {
-        this.sessionsCount = res.sessions.length;
         this.student = res;
       },
       (err) => {
         console.log(err);
       }
     );
-
   }
 
 }

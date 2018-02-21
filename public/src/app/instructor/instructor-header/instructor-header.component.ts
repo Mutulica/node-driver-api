@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InstructorService } from '../instructor.service';
+import { InstructorHttpService } from '../instructorHTTP.service';
 
 @Component({
   selector: 'app-instructor-header',
@@ -10,15 +10,15 @@ export class InstructorHeaderComponent implements OnInit {
 
   public instructorDetails: Object = {};
   public instructorAppointments = [];
-  constructor( private instructorService: InstructorService) { }
+  constructor( private instructorHttpService: InstructorHttpService) { }
 
   ngOnInit() {
-    this.instructorService.getInstructorDetails()
+    this.instructorHttpService.getInstructorDetails()
       .subscribe((res) => {
         this.instructorDetails = res;
       });
 
-      this.instructorService.getUnconfirmedAppointments().subscribe(
+      this.instructorHttpService.getUnconfirmedAppointments().subscribe(
         (res) => {
           this.instructorAppointments = res;
         }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 
 import { StudentDetails } from '../../models/student-details.model';
-import { InstructorService } from '../../instructor.service';
+import { InstructorHttpService } from '../../instructorHTTP.service';
 
 @Component({
   selector: 'app-students',
@@ -12,18 +12,17 @@ import { InstructorService } from '../../instructor.service';
 export class StudentsComponent implements OnInit {
 
   constructor(
-    private instructorService: InstructorService,
+    private instructorHttpService: InstructorHttpService,
     private router: Router
   ) { }
 
   students: StudentDetails[] = [] ;
 
   ngOnInit() {
-    this.instructorService.getStudents()
+    this.instructorHttpService.getStudents()
       .subscribe(
         (res : StudentDetails[]) => {
           this.students = res;
-          console.log(res);
         },
         (err: any) => {
           console.log(err);

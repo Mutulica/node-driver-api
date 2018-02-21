@@ -2,6 +2,7 @@
   <h3>Adauga Programare</h3>
   <div class="form-group">
     <label>Data si ora:</label>
+    <!-- <owl-date-time-inline style="width: 100%" [firstDayOfWeek]="1" [owlDateTimeFilter]="myFilter" [(ngModel)]="selectedMoment"></owl-date-time-inline> -->
     <div class="input-group date">
       <div class="input-group-addon">
         <i class="fa fa-calendar"></i>
@@ -9,7 +10,7 @@
         <input [(ngModel)]="selectedMoment" [owlDateTimeTrigger]="dt9" [owlDateTime]="dt9"
                [owlDateTimeFilter]="myFilter">
         <owl-date-time #dt9 [firstDayOfWeek]="1"></owl-date-time>
-        </div>
+      </div>
     </div>
   </div>
   <button (click)="onChangeDate()" type="button" class="btn btn-block btn-primary">Adauga</button>

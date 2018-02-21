@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 
-import { InstructorService } from '../../../instructor.service';
+import { InstructorHttpService } from '../../../instructorHTTP.service';
 import { UtilsService } from '../../../utils/utils.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { UtilsService } from '../../../utils/utils.service';
 export class StudentAppointmentsComponent implements OnInit {
 
   constructor(
-    public instructorService: InstructorService,
+    public instructorHttpService: InstructorHttpService,
     private utilsService: UtilsService,
     private route: ActivatedRoute
   ) { }
@@ -21,9 +21,10 @@ export class StudentAppointmentsComponent implements OnInit {
   public student = {};
   private appointmentId: Number;
   public studentAppointments = [];
+  public selectedMoment = new Date();
 
   ngOnInit() {
-    this.instructorService.getStudentAppointments(this.studentId)
+    this.instructorHttpService.getStudentAppointments(this.studentId)
     .subscribe(
       (res) => {
         this.studentAppointments = res.sort(this.utilsService.orderDateDesc);
@@ -39,19 +40,42 @@ export class StudentAppointmentsComponent implements OnInit {
   }
 
   onAppointmentDelete(){
-    this.instructorService.deleteStudentAppointment(this.appointmentId)
+    this.instructorHttpService.deleteStudentAppointment(this.appointmentId)
       .subscribe(
         (res) => {
           if(res.n === 1){
             var updatedAppointments = this.studentAppointments.filter((el) => {
               return el._id !== this.appointmentId;
             });
-            this.studentAppointments = updatedAppointments;
+            this.studentAppointments = updatedAppointments.sort(this.utilsService.orderDateDesc);
+            this.instructorHttpService.studentAppointments = updatedAppointments.sort(this.utilsService.orderDateDesc);
           }
         },
         (err) => {
           console.log(err);
         }
       );
+  }
+
+  onReschedule(){
+    const date = this.selectedMoment.getTime();
+    const data = {
+      date: date,
+      id : this.appointmentId
+    }
+    this.instructorHttpService.rescheduleStudentAppointment(data).subscribe(
+      (res) => {
+        var updatedAppointment = this.studentAppointments.filter((el) => {
+          return el._id === this.appointmentId;
+        });
+        var index = this.studentAppointments.indexOf(updatedAppointment[0]);
+        if(index !== -1){
+          this.studentAppointments[index] = res;
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }

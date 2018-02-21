@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import {FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { FullCalendarModule  } from 'ng-fullcalendar';
 
@@ -21,6 +21,7 @@ import { AddStudentComponent } from './instructor-content/add-student/add-studen
 import { StudentProfileComponent } from './instructor-content/student-profile/student-profile.component';
 import { StudentAppointmentsComponent } from './instructor-content/student-profile/student-appointments/student-appointments.component';
 import { AddAppointmentComponent } from './instructor-content/student-profile/add-appointment/add-appointment.component';
+import { StudentPastSessionsComponent } from './instructor-content/student-profile/student-past-sessions/student-past-sessions.component';
 
 const router = [
   {path: 'instructor', component: InstructorComponent, children: [
@@ -59,7 +60,8 @@ const router = [
     AddStudentComponent,
     StudentProfileComponent,
     StudentAppointmentsComponent,
-    AddAppointmentComponent
+    AddAppointmentComponent,
+    StudentPastSessionsComponent
   ]
 
 })

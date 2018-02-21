@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
 
-import {InstructorService} from '../../instructor.service';
+import {InstructorHttpService} from '../../instructorHTTP.service';
 
 @Component({
   selector: 'app-calendar',
@@ -20,12 +20,12 @@ export class InstructorCalendarComponent implements OnInit {
   ];
 
   constructor(
-    public instructorService: InstructorService
+    public instructorHttpService: InstructorHttpService
   ){}
 
   ngOnInit() {
     //GET instructor schedule
-    this.instructorService.getAppointments().subscribe(
+    this.instructorHttpService.getAppointments().subscribe(
       (res) => {
         this.appointments = res;
         //Add instructor schedule to Calendar events

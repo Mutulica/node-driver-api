@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import {InstructorService } from '../../instructor.service';
+import {InstructorHttpService } from '../../instructorHTTP.service';
 
 
 @Component({
@@ -13,7 +13,7 @@ export class AddStudentComponent implements OnInit {
 
   public obj = {};
 
-    constructor(private instructorService: InstructorService) { }
+    constructor(private instructorHttpService: InstructorHttpService) { }
 
     ngOnInit() {
     }
@@ -27,7 +27,7 @@ export class AddStudentComponent implements OnInit {
        lastName: form.value.lastName,
        phone: form.value.phone
      }
-      this.instructorService.registerStudent(this.obj).subscribe(
+      this.instructorHttpService.registerStudent(this.obj).subscribe(
         (res) => {
           console.log(res);
         },

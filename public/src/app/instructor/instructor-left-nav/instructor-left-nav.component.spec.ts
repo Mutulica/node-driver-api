@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StarterLeftSideComponent } from './starter-left-side.component';
+import { InstructorLeftNavComponent } from './instructor-left-nav.component';
 
 describe('StarterLeftSideComponent', () => {
-  let component: StarterLeftSideComponent;
-  let fixture: ComponentFixture<StarterLeftSideComponent>;
+  let component: InstructorLeftNavComponent;
+  let fixture: ComponentFixture<InstructorLeftNavComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StarterLeftSideComponent ]
+      declarations: [ InstructorLeftNavComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StarterLeftSideComponent);
+    fixture = TestBed.createComponent(InstructorLeftNavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -233,7 +233,7 @@ app.get('/instructor/schedule', autenticate, async (req, res) => {
   }
 });
 
-//GET Instructor schedule
+//GET Unconfirmed appointments/ Instructor schedule
 app.get('/instructor/schedule/unconfirmed', autenticate, async (req, res) => {
   const _instructorId = req.user.id;
   if(!ObjectID.isValid(_instructorId)){
@@ -331,6 +331,31 @@ app.delete('/schedule/delete/:id', autenticate, async (req, res) => {
 
 });
 
+
+//instructor Reschedule an Appointment
+app.patch('/schedule/reschedule', autenticate, async (req, res) => {
+  const _id = req.body.id;
+  const date = req.body.date;
+
+  if(!ObjectID.isValid(_id)){
+    return res.status(404).send();
+  }
+
+  try {
+    const data = await Schedule.findOneAndUpdate(
+      {_id},
+      { $set:{date}}
+    );
+    if(!data){
+      return res.status(404).send('Appointment not found');
+    }
+    data.date = date;
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+
+});
 
 app.listen(port, () => {
   console.log(`App is running on port ${port}`);

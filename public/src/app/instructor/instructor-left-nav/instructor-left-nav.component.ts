@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { InstructorService } from '../instructor.service';
+import { InstructorHttpService } from '../instructorHTTP.service';
 
 @Component({
   selector: 'app-instructor-left-nav',
@@ -10,7 +10,7 @@ import { InstructorService } from '../instructor.service';
 export class InstructorLeftNavComponent implements OnInit {
 
   public instructorDetails: Object = {};
-  constructor( private instructorService: InstructorService) { }
+  constructor( private instructorService: InstructorHttpService) { }
 
   ngOnInit() {
     this.instructorService.getInstructorDetails()

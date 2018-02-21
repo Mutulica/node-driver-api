@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { InstructorModule} from './instructor/instructor.module';
 
 //Instructor services
+import { InstructorHttpService } from './instructor/instructorHTTP.service';
 import { InstructorService } from './instructor/instructor.service';
 import {UtilsService } from './instructor/utils/utils.service';
 
@@ -28,7 +29,7 @@ const router = [
     BrowserAnimationsModule,
     RouterModule.forRoot(router)
   ],
-  providers: [DatePipe, InstructorService, UtilsService],
+  providers: [DatePipe, InstructorHttpService, InstructorService, UtilsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

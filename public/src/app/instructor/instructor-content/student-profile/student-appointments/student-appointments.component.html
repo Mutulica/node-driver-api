@@ -20,7 +20,9 @@
             <td>{{appointment.date | date:'MMMM d, y'}}</td>
             <td>{{appointment.date | date:'H: mm'}}</td>
             <td>
-              <button type="button" class="btn btn-warning btn-xs pull-left">Reprogrameaza</button>
+              <button (click)="onAppointmentId(appointment._id)" type="button" class="btn btn-warning btn-xs pull-left" data-toggle="modal" data-target="#modal-default">
+                Reprogrameaza
+              </button>
               <button
               (click)="onAppointmentId(appointment._id)"
                 type="button"
@@ -40,6 +42,7 @@
   </div>
 </div>
 
+<!-- Delete appointment modal -->
 <div class="modal modal-danger fade" id="modal-danger" style="display: none;">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -54,6 +57,28 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Nu</button>
         <button (click)="onAppointmentDelete()" type="button" class="btn btn-outline" data-dismiss="modal">DA</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<!-- Reschedule appointment modal -->
+<div class="modal fade" id="modal-default" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Default Modal</h4>
+      </div>
+      <div class="modal-body">
+        <owl-date-time-inline [(ngModel)]="selectedMoment"></owl-date-time-inline>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Inapoi</button>
+        <button type="button" class="btn btn-primary" (click)="onReschedule()">Reprogrameaza</button>
       </div>
     </div>
     <!-- /.modal-content -->

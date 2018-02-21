@@ -4,7 +4,7 @@ import { ActivatedRoute} from '@angular/router';
 
 import { DateTimeAdapter } from 'ng-pick-datetime';
 
-import { InstructorService } from '../../../instructor.service';
+import { InstructorHttpService } from '../../../instructorHTTP.service';
 
 @Component({
   selector: 'app-add-appointment',
@@ -24,7 +24,7 @@ export class AddAppointmentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public instructorService: InstructorService,
+    public instructorHttpService: InstructorHttpService,
     private dateTimeAdapter: DateTimeAdapter<any>
   ) {
       dateTimeAdapter.setLocale('ro-RO');
@@ -37,7 +37,7 @@ export class AddAppointmentComponent implements OnInit {
 
     if(this.selectedMoment != undefined){
       var data = {studentId: this.studentId, date: this.selectedMoment.getTime()};
-      this.instructorService.addAppointment(data)
+      this.instructorHttpService.addAppointment(data)
         .subscribe(
           (res) => {
             console.log(res);
