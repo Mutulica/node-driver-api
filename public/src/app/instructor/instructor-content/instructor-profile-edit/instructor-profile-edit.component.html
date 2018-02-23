@@ -1,0 +1,112 @@
+<div class="col-md-6">
+  <div class="box box-primary">
+    <div class="box-header">
+      <h3 class="box-title">Editeaza</h3>
+    </div>
+    <div class="box-body">
+
+      <form #form="ngForm">
+
+        <div class="form-group">
+          <label>Telefon:</label>
+
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-phone"></i>
+            </div>
+            <input ngModel name="phone" type="text" class="form-control pull-right" [value]="myProfile.phone">
+          </div>
+          <!-- /.input group -->
+        </div>
+        <!-- /.form group -->
+        <div class="form-group">
+          <label>Email:</label>
+
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-envelope"></i>
+            </div>
+            <input ngModel name="email" type="email" class="form-control pull-right" [value]="myProfile.email || 'Email'">
+          </div>
+          <!-- /.input group -->
+        </div>
+        <!-- /.form group -->
+        <div class="form-group">
+          <label>Adresa:</label>
+
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-map-marker"></i>
+            </div>
+            <input ngModel name="address" type="text" class="form-control pull-right" [value]="myProfile.address  || 'Adresa'">
+          </div>
+          <!-- /.input group -->
+        </div>
+        <!-- /.form group -->
+        <div class="form-group">
+          <label for="exampleInputFile">Imagine profil</label>
+          <input ngModel name="profileImage" type="file" id="profileImage" (change)="onFileChange($event)" #fileInput>
+          <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
+          <p class="help-block">Example block-level help text here.</p>
+        </div>
+        <div class="form-group">
+          <label>Descriere:</label>
+
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <textarea ngModel name="description" class="form-control" rows="4" [value]="myProfile.profileDescription || 'Descriere profil'"></textarea>
+          </div>
+          <!-- /.input group -->
+        </div>
+        <!-- /.form group -->
+        <div class="input-group">
+          <button [disabled]="form.untouched && !form.dirty" (click)="onEditProfile(form)" type="button" class="btn btn-block btn-primary">Salveaza</button>
+        </div>
+     </form>
+
+    </div>
+    <!-- /.box-body -->
+  </div>
+</div>
+<div class="col-md-6">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">Detalii Actuale</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+
+      <strong><i class="fa fa-phone margin-r-5"></i> Telefon</strong>
+
+      <p class="text-muted">
+       {{myProfile.phone}}
+      </p>
+
+      <hr>
+
+      <strong><i class="fa fa-envelope margin-r-5"></i> Email</strong>
+
+      <p class="text-muted">
+       {{myProfile.email}}
+      </p>
+
+      <hr>
+
+      <strong><i class="fa fa-map-marker margin-r-5"></i> Adresa</strong>
+
+      <p class="text-muted">{{myProfile.address}}</p>
+
+      <hr>
+
+      <strong><i class="fa fa-book margin-r-5"></i> Descriere</strong>
+
+      <p class="text-muted">
+       {{myProfile.profileDescription}}
+      </p>
+
+    </div>
+    <!-- /.box-body -->
+  </div>
+</div>

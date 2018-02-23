@@ -63,6 +63,26 @@ app.get('/instructor/me', autenticate, async (req, res) => {
   }
 });
 
+//Update Instructor details
+app.patch('/instructor/me', autenticate, async (req, res) => {
+  const _id = req.user._id;
+  const body = req.body;
+
+  if(!ObjectID.isValid(_id)){
+    return res.status(404).send();
+  }
+
+  try {
+    var instructor = await Instructor.findOneAndUpdate({_id}, {$set: body}, {new: true});
+    if(!instructor){
+      return res.status(404).send('Instructor was not found');
+    }
+    res.status(200).send(instructor);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
 //Register a student
 app.post('/student', autenticate, async (req, res) => {
 

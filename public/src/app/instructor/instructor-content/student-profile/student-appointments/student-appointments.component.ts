@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 
 import { InstructorHttpService } from '../../../instructorHTTP.service';
+import { InstructorService } from '../../../instructor.service';
 import { UtilsService } from '../../../utils/utils.service';
 
 @Component({
@@ -13,26 +14,29 @@ export class StudentAppointmentsComponent implements OnInit {
 
   constructor(
     public instructorHttpService: InstructorHttpService,
+    public instructorService: InstructorService,
     private utilsService: UtilsService,
     private route: ActivatedRoute
   ) { }
 
   private studentId = this.route.snapshot.params['id'];
-  public student = {};
   private appointmentId: Number;
   public studentAppointments = [];
   public selectedMoment = new Date();
+  public appointmentDateChanged = Number;
 
   ngOnInit() {
-    this.instructorHttpService.getStudentAppointments(this.studentId)
-    .subscribe(
-      (res) => {
-        this.studentAppointments = res.sort(this.utilsService.orderDateDesc);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+
+      this.instructorHttpService.getStudentAppointments(this.studentId)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.studentAppointments = this.instructorHttpService.studentAppointments;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   onAppointmentId(id){
@@ -48,7 +52,8 @@ export class StudentAppointmentsComponent implements OnInit {
               return el._id !== this.appointmentId;
             });
             this.studentAppointments = updatedAppointments.sort(this.utilsService.orderDateDesc);
-            this.instructorHttpService.studentAppointments = updatedAppointments.sort(this.utilsService.orderDateDesc);
+            this.instructorHttpService.studentAppointments = this.studentAppointments;
+
           }
         },
         (err) => {
@@ -71,6 +76,7 @@ export class StudentAppointmentsComponent implements OnInit {
         var index = this.studentAppointments.indexOf(updatedAppointment[0]);
         if(index !== -1){
           this.studentAppointments[index] = res;
+          this.studentAppointments.sort(this.utilsService.orderDateDesc);
         }
       },
       (err) => {

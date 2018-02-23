@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import { StudentDetails } from './models/student-details.model';
 
 import { UtilsService } from './utils/utils.service';
+import { InstructorService } from './instructor.service';
 
 @Injectable()
 
@@ -17,14 +18,18 @@ export class InstructorHttpService {
   public studentDetails: StudentDetails;
   public studentAppointments: Object[] = [];
   //public allAppointments: Object[] = [];
-  //private url = "https://driving-school-app.herokuapp.com";
+  // private url = "https://driving-school-app.herokuapp.com";
   private url = "http://localhost:3000";
 
   constructor(
     private http: Http,
+    private instructorService: InstructorService,
     private utilsService: UtilsService
   ){}
+  //local token
   token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTgwNjkyMzEwYzJkYzBlNDhiYzAyNTAiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE4MzY0OTYzfQ.OOqiiw5CGLme05ASkKne6xM-pRnOS2gUfHSYlMvezao';
+  // Web token
+  // token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg5ZmVkMjc1ODk2NDQyMjQ2ZmFhZDUiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE4OTkzMTA2fQ.rFzlVSkfXpS64l-cwat-a80Yf9S19_NHUHjK_1sV53k';
 
    headers: Headers = new Headers({
     'Content-Type': 'application/json',
@@ -35,6 +40,17 @@ export class InstructorHttpService {
     headers: this.headers
   });
 
+  getMyProfile(){
+    return this.http.get(this.url + '/instructor/me', this.option)
+      .map((res: Response) => res.json())
+      .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
+  }
+
+  editInstructorProfile(data){
+    return this.http.patch(this.url +'/instructor/me', data, this.option)
+      .map((res: Response) => res.json())
+      .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
+  }
   registerStudent(data){
     return this.http.post(this.url + '/student',data ,this.option)
       .map((res: Response) =>{ this.studentsList.push(res.json())})
@@ -48,6 +64,15 @@ export class InstructorHttpService {
         this.studentAppointments = this.studentAppointments.sort(this.utilsService.orderDateDesc);
       })
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
+  }
+
+  getStudentAppointments(id){
+    return this.http.get(this.url +'/instructor/schedule/' + id, this.option)
+      .map((res: Response) =>{
+        this.studentAppointments = res.json().sort(this.utilsService.orderDateDesc);
+        return this.studentAppointments;
+      })
+      .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'))
   }
 
   getStudents(){
@@ -73,14 +98,7 @@ export class InstructorHttpService {
       .map((res: Response) => res.json())
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
   }
-  getStudentAppointments(id){
-    return this.http.get(this.url +'/instructor/schedule/' + id, this.option)
-      .map((res: Response) =>{
-        this.studentAppointments = res.json();
-        return this.studentAppointments;
-      })
-      .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'))
-  }
+
 
   //GET Instructor Details
   getInstructorDetails(){

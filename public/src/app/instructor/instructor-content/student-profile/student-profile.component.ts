@@ -4,6 +4,7 @@ import { ActivatedRoute} from '@angular/router';
 import { StudentDetails } from '../../models/student-details.model';
 
 import { InstructorHttpService } from '../../instructorHTTP.service';
+import { InstructorService } from '../../instructor.service';
 
 @Component({
   selector: 'app-student-profile',
@@ -19,19 +20,26 @@ export class StudentProfileComponent implements OnInit {
     constructor(
       private route: ActivatedRoute,
       public instructorHttpService: InstructorHttpService,
+      public instructorService: InstructorService,
     ) {
 
     }
 
   ngOnInit() {
-    this.instructorHttpService.getStudent(this.studentId).subscribe(
-      (res) => {
-        this.student = res;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
 
+    this.student = this.instructorService.studentDetails;
+    
+    if(!this.student.hasOwnProperty("_id")){
+      this.instructorHttpService.getStudent(this.studentId).subscribe(
+        (res) => {
+          this.student = res;
+          this.sessionsCount = res.sessions.length;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
+
+  }
 }

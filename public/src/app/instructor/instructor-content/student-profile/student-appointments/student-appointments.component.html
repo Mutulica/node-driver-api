@@ -74,11 +74,11 @@
         <h4 class="modal-title">Default Modal</h4>
       </div>
       <div class="modal-body">
-        <owl-date-time-inline [(ngModel)]="selectedMoment"></owl-date-time-inline>
+          <owl-date-time-inline [(ngModel)]="selectedMoment"></owl-date-time-inline>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Inapoi</button>
-        <button type="button" class="btn btn-primary" (click)="onReschedule()">Reprogrameaza</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onReschedule()">Reprogrameaza</button>
       </div>
     </div>
     <!-- /.modal-content -->

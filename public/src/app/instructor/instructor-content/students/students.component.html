@@ -1,4 +1,4 @@
-<div class="col-md-4" *ngFor="let student of students">
+<div class="col-md-4" *ngFor="let student of students; let i = index">
   <div class="box box-widget widget-user">
     <!-- Add the bg color to the header using any of the bg-* classes -->
     <div class="widget-user-header bg-aqua-active">
@@ -35,7 +35,7 @@
         </div>
         <!-- /.col -->
         <div class="col-md-12">
-          <button (click)="onSelectStudent(student._id)" type="button" class="btn btn-block btn-primary">Detalii</button>
+          <button (click)="onSelectStudent(student, i)" type="button" class="btn btn-block btn-primary">Detalii</button>
         </div>
       </div>
       <!-- /.row -->

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { FormBuilder } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 //instructor NgModule
@@ -29,7 +30,7 @@ const router = [
     BrowserAnimationsModule,
     RouterModule.forRoot(router)
   ],
-  providers: [DatePipe, InstructorHttpService, InstructorService, UtilsService],
+  providers: [DatePipe, InstructorHttpService, InstructorService, UtilsService, FormBuilder],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

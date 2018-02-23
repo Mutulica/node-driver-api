@@ -29,10 +29,32 @@
 
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
-      <li class="header">HEADER</li>
-      <!-- Optionally, you can add icons to the links -->
-      <li><a routerLink="students"><i class="fa fa-link"></i> <span>Lista Elevi</span></a></li>
-      <li><a routerLink="new-student"><i class="fa fa-link"></i> <span>Adauga Elev</span></a></li>
+      <li class="header">NAVIGATIE</li>
+
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-edit"></i> <span>Profil</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu" style="display: none;">
+          <li><a routerLink="profile"><i class="fa fa-eye"></i> <span>Vizualizare</span></a></li>
+          <li><a routerLink="edit"><i class="fa fa-edit"></i>Editare</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-users"></i> <span>Elevi</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu" style="display: none;">
+          <li><a routerLink="students"><i class="fa fa-users"></i> <span>Lista Elevi</span></a></li>
+          <li><a routerLink="new-student"><i class="fa fa-link"></i> <span>Adauga Elev</span></a></li>
+        </ul>
+      </li>
       <li><a routerLink="schedule-list"><i class="fa fa-link"></i> <span>Lista Programari</span></a></li>
       <li>
         <a routerLink="calendar">

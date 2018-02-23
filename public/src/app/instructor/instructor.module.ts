@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 
 import { FullCalendarModule  } from 'ng-fullcalendar';
 
@@ -22,6 +22,8 @@ import { StudentProfileComponent } from './instructor-content/student-profile/st
 import { StudentAppointmentsComponent } from './instructor-content/student-profile/student-appointments/student-appointments.component';
 import { AddAppointmentComponent } from './instructor-content/student-profile/add-appointment/add-appointment.component';
 import { StudentPastSessionsComponent } from './instructor-content/student-profile/student-past-sessions/student-past-sessions.component';
+import { InstructorProfileComponent } from './instructor-content/instructor-profile/instructor-profile.component';
+import { InstructorProfileEditComponent } from './instructor-content/instructor-profile-edit/instructor-profile-edit.component';
 
 const router = [
   {path: 'instructor', component: InstructorComponent, children: [
@@ -29,7 +31,9 @@ const router = [
     {path: 'schedule-list', component: ScheduleListComponent},
     {path: 'students', component: StudentsComponent},
     {path: 'students/:id', component: StudentProfileComponent},
-    {path: 'new-student', component: AddStudentComponent}
+    {path: 'new-student', component: AddStudentComponent},
+    {path: 'profile', component: InstructorProfileComponent},
+    {path: 'edit', component: InstructorProfileEditComponent}
   ]}
 
 ];
@@ -61,7 +65,9 @@ const router = [
     StudentProfileComponent,
     StudentAppointmentsComponent,
     AddAppointmentComponent,
-    StudentPastSessionsComponent
+    StudentPastSessionsComponent,
+    InstructorProfileComponent,
+    InstructorProfileEditComponent
   ]
 
 })

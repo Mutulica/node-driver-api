@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 
 import { StudentDetails } from '../../models/student-details.model';
 import { InstructorHttpService } from '../../instructorHTTP.service';
+import { InstructorService } from '../../instructor.service';
 
 @Component({
   selector: 'app-students',
@@ -13,16 +14,18 @@ export class StudentsComponent implements OnInit {
 
   constructor(
     private instructorHttpService: InstructorHttpService,
+    private instructorService: InstructorService,
     private router: Router
   ) { }
 
-  students: StudentDetails[] = [] ;
+  students: StudentDetails[] = [];
 
   ngOnInit() {
     this.instructorHttpService.getStudents()
       .subscribe(
         (res : StudentDetails[]) => {
           this.students = res;
+          this.instructorService.studentsArray = res;
         },
         (err: any) => {
           console.log(err);
@@ -30,8 +33,9 @@ export class StudentsComponent implements OnInit {
       );
   }
 
-  onSelectStudent(id){
-    this.router.navigate(['instructor/students/' + id])
+  onSelectStudent(student){
+    this.instructorService.studentDetails = student;
+    this.router.navigate(['instructor/students/' + student._id]);
   }
 
 }
