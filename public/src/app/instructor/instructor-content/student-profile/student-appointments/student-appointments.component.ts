@@ -3,7 +3,7 @@ import { ActivatedRoute} from '@angular/router';
 
 import { InstructorHttpService } from '../../../instructorHTTP.service';
 import { InstructorService } from '../../../instructor.service';
-import { UtilsService } from '../../../utils/utils.service';
+import { UtilsService } from '../../../../shared/utils/utils.service';
 
 @Component({
   selector: 'app-student-appointments',
@@ -30,7 +30,6 @@ export class StudentAppointmentsComponent implements OnInit {
       this.instructorHttpService.getStudentAppointments(this.studentId)
       .subscribe(
         (res) => {
-          console.log(res);
           this.studentAppointments = this.instructorHttpService.studentAppointments;
         },
         (err) => {

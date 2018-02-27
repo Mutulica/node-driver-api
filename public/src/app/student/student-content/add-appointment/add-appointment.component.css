@@ -1,0 +1,13 @@
+.owl-dt-inline-container, .owl-dt-popup-container {
+    position: relative;
+    width: 100% !important;
+    box-shadow: 0 0;
+}
+
+.datepicker-inline {
+    width: 100% !important;
+}
+
+.owl-dt-inline-container .owl-dt-calendar, .owl-dt-popup-container .owl-dt-calendar {
+    height: 100% !important;
+}

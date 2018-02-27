@@ -33,6 +33,9 @@ var StudentSchema = new mongoose.Schema({
     required: true,
     type: Number
   },
+  address: {
+    type: String
+  },
   _instructorId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true

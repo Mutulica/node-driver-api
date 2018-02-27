@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import {InstructorHttpService} from '../../instructorHTTP.service';
-import { UtilsService } from '../../utils/utils.service';
+import { UtilsService } from '../../../shared/utils/utils.service';
 
 @Component({
   selector: 'app-schedule-list',

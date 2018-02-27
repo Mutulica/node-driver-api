@@ -17,8 +17,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let appointment of studentAppointments">
-            <td>{{appointment.date | date:'MMMM d, y'}}</td>
-            <td>{{appointment.date | date:'H: mm'}}</td>
+            <td>{{appointment.date.from | date:'MMMM d'}}</td>
+            <td>{{appointment.date.from | date:'H: mm'}} - {{appointment.date.to | date:'H: mm'}}</td>
             <td>
               <button (click)="onAppointmentId(appointment._id)" type="button" class="btn btn-warning btn-xs pull-left" data-toggle="modal" data-target="#modal-default">
                 Reprogrameaza

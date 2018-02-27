@@ -13,7 +13,7 @@ export class InstructorHeaderComponent implements OnInit {
   constructor( private instructorHttpService: InstructorHttpService) { }
 
   ngOnInit() {
-    this.instructorHttpService.getInstructorDetails()
+    this.instructorHttpService.getMyProfile()
       .subscribe((res) => {
         this.instructorDetails = res;
       });

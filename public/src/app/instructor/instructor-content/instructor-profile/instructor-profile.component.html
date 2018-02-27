@@ -84,6 +84,27 @@
         <div class="col-md-6">
           <div class="box box-primary">
             <div class="box-header with-border">
+              <h3 class="box-title">Orar</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div *ngFor="let work of workingSchedule">
+                <strong>{{daysOfWeek[work.day]}}</strong>
+
+                <p class="text-muted">
+                 {{work.workingHours.from}} - {{work.workingHours.to}}
+                </p>
+              <div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+      </div>
+      </div>
+
+        <div class="col-md-6">
+          <div class="box box-primary">
+            <div class="box-header with-border">
               <h3 class="box-title">Detalii Autovehicol(e)</h3>
             </div>
             <!-- /.box-header -->

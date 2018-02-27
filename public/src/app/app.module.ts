@@ -3,17 +3,19 @@ import {CommonModule, DatePipe} from '@angular/common';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { FormBuilder } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormBuilder, FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 //instructor NgModule
 import { InstructorModule} from './instructor/instructor.module';
 
-//Instructor services
-import { InstructorHttpService } from './instructor/instructorHTTP.service';
-import { InstructorService } from './instructor/instructor.service';
-import {UtilsService } from './instructor/utils/utils.service';
+import { StudentModule} from './student/student.module';
+
+//shared services
+import { UtilsService } from './shared/utils/utils.service';
+
+
 
 const router = [
   {path: '', component: AppComponent},
@@ -21,16 +23,18 @@ const router = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    FormsModule,
     InstructorModule,
+    StudentModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(router)
   ],
-  providers: [DatePipe, InstructorHttpService, InstructorService, UtilsService, FormBuilder],
+  providers: [DatePipe, UtilsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

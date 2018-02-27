@@ -32,10 +32,10 @@ export class InstructorCalendarComponent implements OnInit {
         this.appointments.forEach((item, index) => {
           this.calendarOptions.events.push({
             title: item['firstName'] + ' ' + item['lastName'],
-            start: new Date(item['date']),
+            start: new Date(item['date'].from),
             description: 'This is a cool event',
             allDay : false,
-            color: "#888" //add color for events
+            color: "" //add color for events
           });
         });
       },

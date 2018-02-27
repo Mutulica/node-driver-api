@@ -8,8 +8,14 @@ var ScheduleSchema = new mongoose.Schema({
     trquired: true
   },
   date: {
-    type: Number,
-    required: true
+    from: {
+      type: Number,
+      required: true
+    },
+    to: {
+      type: Number,
+      required: true
+    }
   },
   _instructorId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -26,6 +32,10 @@ var ScheduleSchema = new mongoose.Schema({
   },
   confirmed: {
     type: Boolean,
+  },
+  createdAt: {
+    type: Number,
+    default: new Date().getTime()
   }
 });
 

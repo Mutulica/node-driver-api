@@ -1,0 +1,53 @@
+<div class="box box-widget widget-user">
+  <!-- Add the bg color to the header using any of the bg-* classes -->
+  <div class="widget-user-header bg-aqua-active">
+    <h3 class="widget-user-username">{{myProfile.firstName}} {{myProfile.lastName}}</h3>
+    <h5 class="widget-user-desc">{{myProfile.phone}}</h5>
+  </div>
+  <div class="widget-user-image">
+    <img class="img-circle" src="../../../assets/img/user1-128x128.jpg" alt="User Avatar">
+  </div>
+  <div class="box-footer">
+    <div class="row">
+      <div class="col-sm-4 border-right">
+        <div class="description-block">
+          <span class="description-text">Sedinte Efectuate</span>
+          <h5 class="description-header">{{sessionsCount}}</h5>
+        </div>
+        <!-- /.description-block -->
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-4 border-right">
+        <div class="description-block">
+          <span class="description-text">Sedinte Ramase</span>
+          <h5 class="description-header">{{16 - sessionsCount}}</h5>
+        </div>
+        <!-- /.description-block -->
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-4">
+        <div class="description-block">
+          <span class="description-text">Urmatoarea Sedinta</span>
+          <h5 class="description-header"></h5>
+        </div>
+        <!-- /.description-block -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <div class="col-md-6">
+      <h3>Detalii</h3>
+      <ul class="nav nav-stacked">
+        <li><a href="#"><i class="fa fa-map-pin"></i> Adresa: <span class="pull-right">{{myProfile.address}}</span></a></li>
+        <li><a href="#"><i class="fa fa-phone"></i> Telefon: <span class="pull-right">{{myProfile.phone}}</span></a></li>
+        <li><a href="#">Email: <span class="pull-right">{{myProfile.email}}</span></a></li>
+        <li><a href="#">Examen <span class="pull-right badge bg-blue">{{myProfile.registeredAt | date:'MMMM d, y'}}</span></a></li>
+        <li><a href="#">Inregistrat: <span class="pull-right badge bg-default">{{myProfile.registeredAt | date:'MMMM d, y'}}</span></a></li>
+      </ul>
+    </div>
+
+    <app-student-appointments></app-student-appointments>
+
+  </div>
+</div>

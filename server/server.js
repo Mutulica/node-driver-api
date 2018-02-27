@@ -305,14 +305,18 @@ app.post('/instructor/schedule', autenticate, async (req, res) => {
       return res.status(404).send({message: 'Student not found'});
     }
 
-    const date = await Schedule.findOne({date: req.body.date});
+    const date = await Schedule.findOne({date: {from: req.body.date.from, to: req.body.date.to}});
     if(date){
-      return res.status(200).send();
+      return res.status(404).send(date);
     }
+
     var obj = {
       _studentId: student._id,
       _instructorId: student._instructorId,
-      date: req.body.date,
+      date: {
+        from: req.body.date.from,
+        to: req.body.date.to
+      },
       firstName: student.firstName,
       lastName: student.lastName,
       phone: student.phone,

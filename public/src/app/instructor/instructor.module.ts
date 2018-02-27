@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule} from '@angular/forms';
+import { FormsModule, FormBuilder} from '@angular/forms';
 
 import { FullCalendarModule  } from 'ng-fullcalendar';
 
@@ -24,6 +24,11 @@ import { AddAppointmentComponent } from './instructor-content/student-profile/ad
 import { StudentPastSessionsComponent } from './instructor-content/student-profile/student-past-sessions/student-past-sessions.component';
 import { InstructorProfileComponent } from './instructor-content/instructor-profile/instructor-profile.component';
 import { InstructorProfileEditComponent } from './instructor-content/instructor-profile-edit/instructor-profile-edit.component';
+
+//Instructor services
+import { InstructorHttpService } from './instructorHTTP.service';
+import { InstructorService } from './instructor.service';
+
 
 const router = [
   {path: 'instructor', component: InstructorComponent, children: [
@@ -68,6 +73,11 @@ const router = [
     StudentPastSessionsComponent,
     InstructorProfileComponent,
     InstructorProfileEditComponent
+  ],
+  providers: [
+    InstructorHttpService,
+    InstructorService,
+    FormBuilder
   ]
 
 })

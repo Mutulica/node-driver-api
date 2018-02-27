@@ -1,0 +1,54 @@
+<label>
+    Selecteaza Data si Ora:
+    <!-- <owl-date-time-inline [firstDayOfWeek]="1" [owlDateTimeFilter]="myFilter" [(ngModel)]="selectedMoment"></owl-date-time-inline> -->
+    <input
+      #dateTime="ngModel"
+      [(ngModel)]="selectedMoment"
+      [owlDateTimeFilter]="myFilter"
+      [min]="min" [max]="max"
+      [owlDateTimeTrigger]="dt5"
+      [owlDateTime]="dt5">
+    <owl-date-time [firstDayOfWeek]="1" [pickerMode]="'dialog'" #dt5></owl-date-time>
+
+</label>
+<button (click)="onChangeDate(dateTime)" type="button" class="btn btn-block btn-primary">Adauga</button>
+
+
+<div class="box box-solid bg-green-gradient" style="position: relative; left: 0px; top: 0px;">
+  <div class="box-header ui-sortable-handle" style="cursor: move;">
+    <i class="fa fa-calendar"></i>
+
+    <h3 class="box-title">Calendar</h3>
+    <!-- tools box -->
+    <div class="pull-right box-tools">
+      <!-- button with a dropdown -->
+      <div class="btn-group">
+        <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <i class="fa fa-bars"></i></button>
+        <ul class="dropdown-menu pull-right" role="menu">
+          <li><a href="#">Add new event</a></li>
+          <li><a href="#">Clear events</a></li>
+          <li class="divider"></li>
+          <li><a href="#">View calendar</a></li>
+        </ul>
+      </div>
+      <button type="button" class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+      </button>
+      <button type="button" class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+      </button>
+    </div>
+    <!-- /. tools -->
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body no-padding">
+    <!--The calendar -->
+    <div id="calendar" style="width: 100%"><div class="datepicker datepicker-inline"><div class="datepicker-days" style="">
+      <!-- <owl-date-time-inline ></owl-date-time-inline> -->
+    </div></div></div>
+  </div>
+  <!-- /.box-body -->
+  <div class="box-footer text-black">
+
+    <!-- /.row -->
+  </div>
+</div>
