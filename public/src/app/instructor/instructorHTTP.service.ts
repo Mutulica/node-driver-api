@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
@@ -18,11 +18,11 @@ export class InstructorHttpService {
   public studentsList: Object[] = [];
   public studentDetails: StudentDetails;
   public studentAppointments: Object[] = [];
-  // public myProfile: EventEmitter<any> = new EventEmitter();
+  public myProfile: EventEmitter<any> = new EventEmitter<any>();
   // public instructorProfile = {};
   //public allAppointments: Object[] = [];
-  private url = "https://driving-school-app.herokuapp.com";
-  //private url = "http://localhost:3000";
+  //private url = "https://driving-school-app.herokuapp.com";
+  private url = "http://localhost:3000";
 
   constructor(
     private http: Http,
@@ -46,7 +46,7 @@ export class InstructorHttpService {
     return this.http.get(this.url + '/instructor/me', this.option)
       .map((res: Response) =>{
         // this.instructorProfile = res.json();
-        // this.myProfile.emit(res.json());
+        this.myProfile.emit(res.json());
         return res.json();
       })
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
@@ -82,7 +82,7 @@ export class InstructorHttpService {
   }
 
   getStudents(){
-    return this.http.get(this.url +'/student', this.option)
+    return this.http.get(this.url +'/instructor/students', this.option)
       .map((res: Response) => this.studentsList = res.json())
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
   }

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var {Instructor} = require('../models/instructor');
+var {Student} = require('../models/student');
 var {Schedule} = require('../models/schedule');
 var {autenticate} = require('../middleweare/autenticate');
 const {ObjectID} = require('mongodb');
@@ -90,7 +91,7 @@ router.post('/student', autenticate, async (req, res) => {
 });
 
 //GET all students
-router.get('/student', autenticate, async (req, res) => {
+router.get('/students', autenticate, async (req, res) => {
   try {
     const _instructorId = req.user._id;
     const students = await Student.find({_instructorId});

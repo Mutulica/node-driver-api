@@ -29,6 +29,12 @@ export class InstructorProfileComponent implements OnInit {
         console.log(err);
       }
     );
+
+    this.instructorHttpService.myProfile.subscribe(
+      (res) => {
+        this.myProfile = res;
+      }
+    );
   }
 
 }
