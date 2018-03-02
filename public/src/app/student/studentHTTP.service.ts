@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 
 export class StudentHttpService{
 
-    private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg0MGJlOWMzZmM1YzBiOTBkOTEzMWQiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE4NjA0OTcxfQ.Xa7wjSQKK0sRsEavB_wZcgZdBQwzNTAY5sX5mX5to1g';
 
     headers: Headers = new Headers({
      'Content-Type': 'application/json',
-     'x-auth' : this.token
+     'x-auth' : this.authService.token
    });
 
     option: RequestOptions = new RequestOptions({
@@ -23,15 +23,21 @@ export class StudentHttpService{
    // private url = "https://driving-school-app.herokuapp.com";
    private url = "http://localhost:3000";
 
-   public myProfile = {};
+  //public myProfile = {};
+   public myProfile: EventEmitter<any> = new EventEmitter<any>();
+   public instructorAppointments: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private http: Http){}
+  constructor(
+    private http: Http,
+    private authService: AuthService,
+  ){}
 
   getStudentProfile(){
     return this.http.get(this.url +'/student/me', this.option)
       .map(
         (res) => {
-          this.myProfile = res.json();
+          this.myProfile.emit(res.json());
+          //this.myProfile = res.json();
           return res.json();
         }
       )
@@ -40,8 +46,32 @@ export class StudentHttpService{
       )
   }
 
+  //Get Instructor Profile from Public Route
+  getInstructorProfile(instructorId){
+    return this.http.get(this.url +'/public/instructor/' + instructorId, this.option)
+      .map(
+        (res) => {
+          return res.json();
+        }
+      )
+      .catch(
+        (err) => err || 'Server Error!'
+      )
+  }
+
+  //Get all Instructor Appointments from public route
+  getInstructorAppointments(instructorId){
+    return this.http.get(this.url +'/public/instructor-schedule/' + instructorId, this.option)
+      .map(
+        (res: Response) => {
+        this.instructorAppointments.emit(res.json());
+        return  res.json()
+        })
+      .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
+  }
+
   getStudentAppointments(){
-    return this.http.get(this.url +'/schedule/me', this.option)
+    return this.http.get(this.url +'/student/schedule', this.option)
       .map(
         (res) => res.json()
       )

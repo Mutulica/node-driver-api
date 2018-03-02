@@ -1,54 +1,48 @@
-<label>
-    Selecteaza Data si Ora:
-    <!-- <owl-date-time-inline [firstDayOfWeek]="1" [owlDateTimeFilter]="myFilter" [(ngModel)]="selectedMoment"></owl-date-time-inline> -->
-    <input
-      #dateTime="ngModel"
-      [(ngModel)]="selectedMoment"
-      [owlDateTimeFilter]="myFilter"
-      [min]="min" [max]="max"
-      [owlDateTimeTrigger]="dt5"
-      [owlDateTime]="dt5">
-    <owl-date-time [firstDayOfWeek]="1" [pickerMode]="'dialog'" #dt5></owl-date-time>
+<div class="col-md-6">
+  <h3>Adauga Programare</h3>
+  <div class="form-group">
+    <label>Data:</label>
+    <!-- <owl-date-time-inline style="width: 100%" [firstDayOfWeek]="1" [owlDateTimeFilter]="myFilter" [(ngModel)]="selectedMoment"></owl-date-time-inline> -->
+    <div class="input-group date">
 
-</label>
-<button (click)="onChangeDate(dateTime)" type="button" class="btn btn-block btn-primary">Adauga</button>
-
-
-<div class="box box-solid bg-green-gradient" style="position: relative; left: 0px; top: 0px;">
-  <div class="box-header ui-sortable-handle" style="cursor: move;">
-    <i class="fa fa-calendar"></i>
-
-    <h3 class="box-title">Calendar</h3>
-    <!-- tools box -->
-    <div class="pull-right box-tools">
-      <!-- button with a dropdown -->
-      <div class="btn-group">
-        <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-          <i class="fa fa-bars"></i></button>
-        <ul class="dropdown-menu pull-right" role="menu">
-          <li><a href="#">Add new event</a></li>
-          <li><a href="#">Clear events</a></li>
-          <li class="divider"></li>
-          <li><a href="#">View calendar</a></li>
-        </ul>
-      </div>
-      <button type="button" class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-      </button>
-      <button type="button" class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-      </button>
+        <!-- <input [(ngModel)]="selectedMoment" [owlDateTimeTrigger]="dt9" [owlDateTime]="dt9"
+               [owlDateTimeFilter]="myFilter">
+        <owl-date-time #dt9 [firstDayOfWeek]="1"></owl-date-time> -->
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+          </div>
+          <input
+          #input
+          (click)="onInputClick(input)"
+          (focus)="onInputFocus(input)"
+          class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask=""
+          [(ngModel)]="selectedMoment"
+          [owlDateTimeFilter]="myFilter"
+          [owlDateTimeTrigger]="dt6"
+          [owlDateTime]="dt6">
+          <owl-date-time
+            afterPickerClosed="onChangeDate()"
+            [firstDayOfWeek]="1"
+            [pickerType]="'calendar'"
+            [startView]="'month'" #dt6>
+          </owl-date-time>
+        </div>
+        <p *ngIf="selectedMoment && this.schedule.length == 0 ">Nu sunt ore disponibile in data selectata</p>
+        <div *ngIf="selectedMoment && this.schedule.length > 0">
+          <hr>
+          <label>Ore disponibile:</label>
+          <div *ngFor="let time of schedule; let i=index">
+            <button (click)="onSelectTime(i)" type="button" class="btn btn-block btn-success">{{time.from}} - {{time.to}}</button>
+            <br>
+          </div>
+          <div *ngIf="this.scheduleIndex >= 0">
+            <p>Data: {{selectedMoment | date:'MMMM d'}}</p>
+            <p>Ora: {{schedule[scheduleIndex].from}} - {{schedule[scheduleIndex].to}}</p>
+            <button (click)="addNewAppointment()" type="button" class="btn btn-block btn-primary">Adauga Programarea</button>
+          </div>
+        </div>
     </div>
-    <!-- /. tools -->
   </div>
-  <!-- /.box-header -->
-  <div class="box-body no-padding">
-    <!--The calendar -->
-    <div id="calendar" style="width: 100%"><div class="datepicker datepicker-inline"><div class="datepicker-days" style="">
-      <!-- <owl-date-time-inline ></owl-date-time-inline> -->
-    </div></div></div>
-  </div>
-  <!-- /.box-body -->
-  <div class="box-footer text-black">
 
-    <!-- /.row -->
-  </div>
 </div>

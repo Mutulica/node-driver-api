@@ -17,8 +17,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let appointment of studentAppointments">
-            <td>{{appointment.date | date:'MMMM d'}}</td>
-            <td>{{appointment.date | date:'H: mm'}}</td>
+            <td>{{appointment.date.from | date:'MMMM d'}}</td>
+            <td>{{appointment.date.from | date:'H: mm'}} - {{appointment.date.to | date:'H: mm'}}</td>
           </tr>
         </tbody>
       </table>

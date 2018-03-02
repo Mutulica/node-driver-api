@@ -7,6 +7,8 @@ import { FullCalendarModule  } from 'ng-fullcalendar';
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
+//Auth Guard
+import { AuthGuard } from '../auth/auth.guard';
 
 import { InstructorComponent } from './instructor.component';
 import { InstructorHeaderComponent } from './instructor-header/instructor-header.component';
@@ -31,7 +33,7 @@ import { InstructorService } from './instructor.service';
 
 
 const router = [
-  {path: 'instructor', component: InstructorComponent, children: [
+  {path: 'instructor', component: InstructorComponent, canActivate: [AuthGuard], children: [
     {path: 'calendar', component: InstructorCalendarComponent},
     {path: 'schedule-list', component: ScheduleListComponent},
     {path: 'students', component: StudentsComponent},
@@ -39,7 +41,7 @@ const router = [
     {path: 'new-student', component: AddStudentComponent},
     {path: 'profile', component: InstructorProfileComponent},
     {path: 'edit', component: InstructorProfileEditComponent}
-  ]}
+  ]},
 
 ];
 
@@ -75,6 +77,7 @@ const router = [
     InstructorProfileEditComponent
   ],
   providers: [
+    AuthGuard,
     InstructorHttpService,
     InstructorService,
     FormBuilder

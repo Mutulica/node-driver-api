@@ -67,7 +67,7 @@ var StudentSchema = new mongoose.Schema({
 StudentSchema.methods.toJSON = function() {
   var user = this;
   var userObj = user.toObject();
-  return _.pick(userObj, ['_id', 'firstName', 'lastName', 'email', 'phone', 'sessions', 'registeredAt']);
+  return _.pick(userObj, ['_id', 'firstName', 'lastName', 'email', 'phone', 'sessions', 'registeredAt', '_instructorId']);
 }
 
 //generate token

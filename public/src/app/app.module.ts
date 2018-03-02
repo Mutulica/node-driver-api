@@ -12,18 +12,27 @@ import { InstructorModule} from './instructor/instructor.module';
 
 import { StudentModule} from './student/student.module';
 
+//Auth service
+import {AuthService } from './auth/auth.service';
+
 //shared services
 import { UtilsService } from './shared/utils/utils.service';
+import { InstructorLoginComponent } from './auth/instructor-login/instructor-login.component';
+import { StudentLoginComponent } from './auth/student-login/student-login.component';
 
 
 
 const router = [
   {path: '', component: AppComponent},
+  {path: 'instructor-login', component: InstructorLoginComponent},
+  {path: 'student-login', component: StudentLoginComponent}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    InstructorLoginComponent,
+    StudentLoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +43,7 @@ const router = [
     BrowserAnimationsModule,
     RouterModule.forRoot(router)
   ],
-  providers: [DatePipe, UtilsService],
+  providers: [DatePipe, UtilsService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

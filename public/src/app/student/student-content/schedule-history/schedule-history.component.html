@@ -17,7 +17,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let schedule of studentSessions">
-          <td>{{schedule.sessionDate | date:'MMMM d, y'}}</td>
+          <td>{{schedule.sessionDate | date:'MMMM d'}}</td>
           <td>{{schedule.duration}} ore</td>
         </tr>
       </tbody>

@@ -69,8 +69,8 @@
                 <li *ngFor="let appointment of instructorAppointments">
                   <!-- start notification -->
                   <a href="#">
-                      Nume: {{appointment.firstName}} {{appointment.lastName}} <br> Data: {{appointment.date | date:'MMMM d, y'}}
-                      Ora: {{appointment.date | date:'H: mm'}}
+                      Nume: {{appointment.firstName}} {{appointment.lastName}} <br> Data: {{appointment.date.from | date:'MMMM d'}}
+                      Ora: {{appointment.date.from | date:'H: mm'}} - {{appointment.date.to | date:'H: mm'}}
                     </a>
                 </li>
                 <!-- end notification -->
@@ -156,7 +156,7 @@
                 <a routerLink="profile" class="btn btn-default btn-flat">Profil</a>
               </div>
               <div class="pull-right">
-                <a href="#" class="btn btn-default btn-flat">Deconectare</a>
+                <a routerLink="/instructor-login" (click)="onLogout()" class="btn btn-default btn-flat">Deconectare</a>
               </div>
             </li>
           </ul>

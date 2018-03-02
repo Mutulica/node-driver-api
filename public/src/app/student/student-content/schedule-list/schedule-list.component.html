@@ -17,8 +17,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let schedule of appointments">
-          <td>{{schedule.date | date:'MMMM d'}}</td>
-          <td>{{schedule.date | date:'H: mm'}}</td>
+          <td>{{schedule.date.from | date:'MMMM d'}}</td>
+          <td>{{schedule.date.from | date:'H: mm'}} - {{schedule.date.to | date:'H: mm'}}</td>
         </tr>
       </tbody>
       <tfoot>

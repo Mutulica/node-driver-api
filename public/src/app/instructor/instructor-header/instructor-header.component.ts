@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../../auth/auth.service';
 import { InstructorHttpService } from '../instructorHTTP.service';
 
 @Component({
@@ -10,7 +13,11 @@ export class InstructorHeaderComponent implements OnInit {
 
   public instructorDetails: Object = {};
   public instructorAppointments = [];
-  constructor( private instructorHttpService: InstructorHttpService) { }
+  constructor(
+    private route: Router,
+    private instructorHttpService: InstructorHttpService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.instructorHttpService.getMyProfile()
@@ -23,6 +30,20 @@ export class InstructorHeaderComponent implements OnInit {
           this.instructorAppointments = res;
         }
       );
+  }
+
+  onLogout(){
+    
+    this.authService.logout();
+    // this.authService.logout().subscribe(
+    //   (res) => {
+    //     this.authService.token = null;
+    //     localStorage.removeItem('currentUser');
+    //   },
+    //   (err) => {
+    //     console.log(err);
+    //   }
+    // );
   }
 
 }

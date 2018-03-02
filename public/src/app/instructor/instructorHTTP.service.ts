@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
@@ -9,6 +9,7 @@ import { StudentDetails } from './models/student-details.model';
 
 import { UtilsService } from '../shared/utils/utils.service';
 import { InstructorService } from './instructor.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 
@@ -25,17 +26,15 @@ export class InstructorHttpService {
 
   constructor(
     private http: Http,
+    private authService: AuthService,
     private instructorService: InstructorService,
     private utilsService: UtilsService
   ){}
-  //local token
-  token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTgwNjkyMzEwYzJkYzBlNDhiYzAyNTAiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE4MzY0OTYzfQ.OOqiiw5CGLme05ASkKne6xM-pRnOS2gUfHSYlMvezao';
-  // Web token
-  // token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg5ZmVkMjc1ODk2NDQyMjQ2ZmFhZDUiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE4OTkzMTA2fQ.rFzlVSkfXpS64l-cwat-a80Yf9S19_NHUHjK_1sV53k';
 
+  // add authorization header with jwt token
    headers: Headers = new Headers({
     'Content-Type': 'application/json',
-    'x-auth' : this.token
+    'x-auth' : this.authService.token
   });
 
    option: RequestOptions = new RequestOptions({
