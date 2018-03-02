@@ -21,8 +21,8 @@ export class InstructorHttpService {
   // public myProfile: EventEmitter<any> = new EventEmitter();
   // public instructorProfile = {};
   //public allAppointments: Object[] = [];
-  // private url = "https://driving-school-app.herokuapp.com";
-  private url = "http://localhost:3000";
+  private url = "https://driving-school-app.herokuapp.com";
+  //private url = "http://localhost:3000";
 
   constructor(
     private http: Http,
