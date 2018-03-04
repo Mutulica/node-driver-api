@@ -10,19 +10,19 @@ import { UtilsService } from '../../../shared/utils/utils.service';
 })
 export class ScheduleListComponent implements OnInit {
 
-  public appointments = [];
+  public appointments;
 
   constructor(
     public instructorHttpService: InstructorHttpService,
-    private commonService: UtilsService
+    private utilsService: UtilsService
   ) { }
 
   ngOnInit() {
-    this.instructorHttpService.getAppointments().subscribe(
-      (res) => {
-        this.appointments = res.sort(this.commonService.orderDateDesc);
-      }
-    );
-  }
+   this.instructorHttpService.getMyAppointments().subscribe(
+     (res) => this.appointments = res.sort(this.utilsService.orderDateDesc).filter(this.utilsService.filterPastAppoint),
+     (err) => console.log(err)
+   );
+
+   }
 
 }

@@ -39,8 +39,17 @@ export class AddAppointmentComponent implements OnInit {
         this.instructorSchedule = res.instructorSchedule;
       }
     );
+  }
 
-    this.instructorHttpService.getAppointments().subscribe(
+  onInputClick(){
+    this.getInstructorAppointments();
+    this.toggleSchedule = false;
+    this.scheduleIndex = undefined;
+    this.selectedMoment === undefined
+  }
+
+  getInstructorAppointments(){
+    this.instructorHttpService.getMyAppointments().subscribe(
       (res) => {
         this.instructorAppoint = res;
       },
@@ -55,7 +64,6 @@ export class AddAppointmentComponent implements OnInit {
   }
 
   onInputChange(input){
-    this.scheduleIndex = undefined;
     if(this.selectedMoment){
       this.schedule = this.utilsService.buildSchedule(this.instructorSchedule, this.selectedMoment.getDay());
       var someArr = this.schedule.filter((element, index)=>{

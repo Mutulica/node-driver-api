@@ -25,7 +25,7 @@ export class InstructorCalendarComponent implements OnInit {
 
   ngOnInit() {
     //GET instructor schedule
-    this.instructorHttpService.getAppointments().subscribe(
+    this.instructorHttpService.getMyAppointments().subscribe(
       (res) => {
         this.appointments = res;
         //Add instructor schedule to Calendar events

@@ -16,15 +16,15 @@
         </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let appointment of studentAppointments">
+          <tr *ngFor="let appointment of studentConfirmedAppointments; let i = index">
             <td>{{appointment.date.from | date:'MMMM d'}}</td>
             <td>{{appointment.date.from | date:'H: mm'}} - {{appointment.date.to | date:'H: mm'}}</td>
             <td>
-              <button (click)="onAppointmentId(appointment._id)" type="button" class="btn btn-warning btn-xs pull-left" data-toggle="modal" data-target="#modal-default">
+              <button (click)="onAppointmentId(appointment._id, i)" type="button" class="btn btn-warning btn-xs pull-left" data-toggle="modal" data-target="#modal-default">
                 Reprogrameaza
               </button>
               <button
-              (click)="onAppointmentId(appointment._id)"
+              (click)="onAppointmentId(appointment._id,i)"
                 type="button"
                 class="btn btn-danger btn-xs pull-right"
                 data-toggle="modal"
@@ -51,8 +51,20 @@
           <span aria-hidden="true">×</span></button>
         <h4 class="modal-title">Sterge Programarea</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" *ngIf="appointmentIndex !== undefinied">
         <p>Sunteti sigur ca doriti sa stergeti programarea?</p>
+        <p>Data:
+          <strong>
+            {{studentConfirmedAppointments[appointmentIndex].date.from | date: 'MMMM d'}}
+          </strong>
+        </p>
+        <p>Ora:
+          <strong>
+            {{studentConfirmedAppointments[appointmentIndex].date.from | date: 'H: mm '}}
+            -
+            {{studentConfirmedAppointments[appointmentIndex].date.to | date: 'H: mm '}}
+          </strong>
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Nu</button>

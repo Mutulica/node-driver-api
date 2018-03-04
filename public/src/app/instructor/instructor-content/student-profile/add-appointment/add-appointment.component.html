@@ -14,6 +14,7 @@
           </div>
           <input
           #input
+          (click)="onInputClick()"
           (focus)="onInputChange(input)"
           class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask=""
           [(ngModel)]="selectedMoment"

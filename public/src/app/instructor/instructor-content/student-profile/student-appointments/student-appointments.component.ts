@@ -21,7 +21,8 @@ export class StudentAppointmentsComponent implements OnInit {
 
   private studentId = this.route.snapshot.params['id'];
   private appointmentId: Number;
-  public studentAppointments = [];
+  public appointmentIndex;
+  public studentConfirmedAppointments = [].sort(this.utilsService.orderDateDesc);
   public selectedMoment = new Date();
   public appointmentDateChanged = Number;
 
@@ -30,7 +31,9 @@ export class StudentAppointmentsComponent implements OnInit {
       this.instructorHttpService.getStudentAppointments(this.studentId)
       .subscribe(
         (res) => {
-          this.studentAppointments = this.instructorHttpService.studentAppointments;
+          this.studentConfirmedAppointments = this.instructorHttpService.studentAppointments.filter((el) => {
+            return el['confirmed'] === true;
+          });
         },
         (err) => {
           console.log(err);
@@ -38,8 +41,9 @@ export class StudentAppointmentsComponent implements OnInit {
       );
   }
 
-  onAppointmentId(id){
+  onAppointmentId(id, index){
     this.appointmentId = id;
+    this.appointmentIndex = index;
   }
 
   onAppointmentDelete(){
@@ -47,11 +51,11 @@ export class StudentAppointmentsComponent implements OnInit {
       .subscribe(
         (res) => {
           if(res.n === 1){
-            var updatedAppointments = this.studentAppointments.filter((el) => {
+            var updatedAppointments = this.studentConfirmedAppointments.filter((el) => {
               return el._id !== this.appointmentId;
             });
-            this.studentAppointments = updatedAppointments.sort(this.utilsService.orderDateDesc);
-            this.instructorHttpService.studentAppointments = this.studentAppointments;
+            this.studentConfirmedAppointments = updatedAppointments.sort(this.utilsService.orderDateDesc);
+            this.instructorHttpService.studentAppointments = this.studentConfirmedAppointments;
 
           }
         },
@@ -69,13 +73,13 @@ export class StudentAppointmentsComponent implements OnInit {
     }
     this.instructorHttpService.rescheduleStudentAppointment(data).subscribe(
       (res) => {
-        var updatedAppointment = this.studentAppointments.filter((el) => {
+        var updatedAppointment = this.studentConfirmedAppointments.filter((el) => {
           return el._id === this.appointmentId;
         });
-        var index = this.studentAppointments.indexOf(updatedAppointment[0]);
+        var index = this.studentConfirmedAppointments.indexOf(updatedAppointment[0]);
         if(index !== -1){
-          this.studentAppointments[index] = res;
-          this.studentAppointments.sort(this.utilsService.orderDateDesc);
+          this.studentConfirmedAppointments[index] = res;
+          this.studentConfirmedAppointments.sort(this.utilsService.orderDateDesc);
         }
       },
       (err) => {

@@ -16,8 +16,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let session of studentSessions">
-            <td>{{session.sessionDate | date:'MMMM d, y'}}</td>
-            <td>{{session.sessionDate | date:'H: mm'}}</td>
+            <td>{{session.date.from | date:'MMMM d, y'}}</td>
+            <td>{{session.date.from | date:'H: mm'}} - {{session.date.to | date:'H: mm'}}</td>
           </tr>
         </tbody>
       </table>
