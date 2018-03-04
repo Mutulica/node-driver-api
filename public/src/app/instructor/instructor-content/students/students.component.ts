@@ -19,18 +19,34 @@ export class StudentsComponent implements OnInit {
   ) { }
 
   students: StudentDetails[] = [];
+  sessionsCount = [];
 
   ngOnInit() {
     this.instructorHttpService.getStudents()
       .subscribe(
         (res : StudentDetails[]) => {
           this.students = res;
-          this.instructorService.studentsArray = res;
+          res.forEach((el) => {
+            this.countPastAppointments(el["_id"]);
+          });
         },
         (err: any) => {
           console.log(err);
         }
       );
+
+  }
+
+  countPastAppointments(id){
+    this.instructorHttpService.getStudentCompletedAppointments(id)
+    .subscribe(
+      (res) => {
+        this.sessionsCount.push(res.length);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   onSelectStudent(student){

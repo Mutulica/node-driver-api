@@ -20,8 +20,8 @@ export class StudentHttpService{
     option: RequestOptions = new RequestOptions({
      headers: this.headers
    });
-   private url = "https://driving-school-app.herokuapp.com";
-   //private url = "http://localhost:3000";
+   //private url = "https://driving-school-app.herokuapp.com";
+   private url = "http://localhost:3000";
 
    // public myProfile = {};
    public myProfile: EventEmitter<any> = new EventEmitter<any>();

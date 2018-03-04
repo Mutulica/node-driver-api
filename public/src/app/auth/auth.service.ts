@@ -7,8 +7,8 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 
 export class AuthService{
-  private url = "https://driving-school-app.herokuapp.com";
-  //private url = "http://localhost:3000";
+  //private url = "https://driving-school-app.herokuapp.com";
+  private url = "http://localhost:3000";
   public token: string;
 
   constructor(private http: Http){

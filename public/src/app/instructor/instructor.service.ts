@@ -12,7 +12,7 @@ export class InstructorService {
 
   public instructorAppointments: Observable<any> = new Observable;
   public studentDetails = {};
-  public studentsArray = [];
+  // public studentsArray = [];
   public studentAppointments = [];
 
   constructor(

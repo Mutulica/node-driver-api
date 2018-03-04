@@ -28,7 +28,7 @@ export class StudentProfileComponent implements OnInit {
   ngOnInit() {
 
     this.student = this.instructorService.studentDetails;
-    
+
     if(!this.student.hasOwnProperty("_id")){
       this.instructorHttpService.getStudent(this.studentId).subscribe(
         (res) => {
@@ -41,5 +41,14 @@ export class StudentProfileComponent implements OnInit {
       );
     }
 
+    this.instructorHttpService.getStudentCompletedAppointments(this.studentId)
+    .subscribe(
+      (res) => {
+        this.sessionsCount = res.length;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }
