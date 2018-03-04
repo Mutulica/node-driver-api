@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
 import { InstructorHttpService } from '../instructorHTTP.service';
+import { UtilsService } from '../../shared/utils/utils.service';
 
 @Component({
   selector: 'app-instructor-header',
@@ -12,11 +13,13 @@ import { InstructorHttpService } from '../instructorHTTP.service';
 export class InstructorHeaderComponent implements OnInit {
 
   public instructorDetails: Object = {};
-  public instructorAppointments = [];
+  public completedAppoint = [];
+  public unconfirmedAppoint = [];
   constructor(
     private route: Router,
     private instructorHttpService: InstructorHttpService,
-    private authService: AuthService
+    private authService: AuthService,
+    private utilsService: UtilsService
   ) { }
 
   ngOnInit() {
@@ -27,13 +30,21 @@ export class InstructorHeaderComponent implements OnInit {
 
       this.instructorHttpService.getUnconfirmedAppointments().subscribe(
         (res) => {
-          this.instructorAppointments = res;
+          this.unconfirmedAppoint = res;
         }
+      );
+
+      this.instructorHttpService.getMyAppointments().subscribe(
+        (res) =>{
+          this.completedAppoint = res.filter(this.utilsService.filterFutureAppoint).sort(this.utilsService.orderDateDesc);
+          console.log(this.completedAppoint);
+        },
+        (err) => console.log(err)
       );
   }
 
   onLogout(){
-    
+
     this.authService.logout();
     // this.authService.logout().subscribe(
     //   (res) => {

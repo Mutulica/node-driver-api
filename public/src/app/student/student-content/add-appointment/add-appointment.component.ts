@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { UtilsService } from '../../../shared/utils/utils.service';
 import { StudentHttpService } from '../../studentHTTP.service';
@@ -8,7 +8,7 @@ import { StudentHttpService } from '../../studentHTTP.service';
   templateUrl: './add-appointment.component.html',
   styleUrls: ['./add-appointment.component.css']
 })
-export class AddAppointmentComponent implements OnInit {
+export class AddAppointmentComponent implements OnInit, OnDestroy {
 
   private profile;
   public workingSchedule;
@@ -29,17 +29,13 @@ export class AddAppointmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.studentHttp.myProfile.subscribe(
+    this.studentHttp.getStudentProfile().subscribe(
       (res) => {
         this.profile = res;
         this.getInstructor(res._instructorId);
       }
     );
-    // this.studentHttp.instructorAppointments.subscribe(
-    //   (res) => {
-    //     this.instructorAppoint = res;
-    //   }
-    // );
+
   }
 
   onSelectTime(i){
@@ -51,7 +47,6 @@ export class AddAppointmentComponent implements OnInit {
       .subscribe(
         (res) => {
           this.instructorAppoint = res;
-          console.log(res);
         },
         (err) => {
           console.log(err);
@@ -87,9 +82,8 @@ export class AddAppointmentComponent implements OnInit {
   onInputClick(input){
     this.getInstructorAppointments(this.profile._instructorId);
     this.scheduleIndex = undefined;
-    this.selectedMoment === undefined
+    this.selectedMoment === undefined;
     this.toggleSchedule = false;
-
   }
 
   addNewAppointment(){
@@ -109,7 +103,6 @@ export class AddAppointmentComponent implements OnInit {
           (res) => {
             this.scheduleIndex = undefined;
             this.toggleSchedule = false;
-            console.log(res);
           },
           (err) => {
             console.log(err);
@@ -117,5 +110,9 @@ export class AddAppointmentComponent implements OnInit {
         );
     }
   }
+
+ngOnDestroy(){
+  //this.studentHttp.myProfile.unsubscribe();
+}
 
 }

@@ -45,10 +45,10 @@ var StudentSchema = new mongoose.Schema({
     default: new Date().getTime()
   },
   sessions: [{
-    sessionDate: {
+    from: {
       type: Number
     },
-    duration: {
+    to: {
       type: String
     }
   }],

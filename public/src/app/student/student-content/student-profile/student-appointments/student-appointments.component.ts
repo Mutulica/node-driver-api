@@ -18,7 +18,7 @@ export class StudentAppointmentsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.studentHttpService.getStudentAppointments()
+    this.studentHttpService.getNextAppointments()
       .subscribe(
         (res) => {
           this.studentAppointments = res.sort(this.utilsService.orderDateDesc);

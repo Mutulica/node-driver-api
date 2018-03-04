@@ -17,10 +17,10 @@ export class ScheduleHistoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.studentHttpService.getStudentProfile()
+    this.studentHttpService.getPastAppointments()
     .subscribe(
         (res) => {
-          this.studentSessions = res.sessions;
+          this.studentSessions = res;
         },
         (err) => {
           console.log(err);

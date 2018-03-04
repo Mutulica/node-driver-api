@@ -1,6 +1,6 @@
 
 
-export class UtilsService{
+export class UtilsService {
 
   public daysOfWeek = ["Duminica", "Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata"];
   public monthsOfYear = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai'];
@@ -22,7 +22,17 @@ export class UtilsService{
     return 0;
   }
 
+//Return only future appointments
+ public filterPastAppoint = (el : Object): boolean => {
+   const dateNow = new Date().getTime();
+   return el['date'].from > dateNow;
+ }
 
+ //Return only past appointments
+  public filterFutureAppoint = (el : Object): boolean => {
+    const dateNow = new Date().getTime();
+    return el['date'].from < dateNow && el['status'] === 'incomplete'; 
+  }
   // Prevent Saturday and Sunday from being selected in Owl calendar.
   public myFilter = (d: Date): boolean => {
       const day = d.getDay();

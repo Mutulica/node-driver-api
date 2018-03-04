@@ -121,7 +121,28 @@ router.get('/student/:id', autenticate, async (req, res) => {
   }
 });
 
-//GET Instructor schedule
+//Mark Appointment as completed
+router.patch('/schedule/complete', autenticate, async (req, res) => {
+  const _instructorId = req.user._id;
+  const _id = req.body._id;
+  const body = req.body;
+  req.body.status = 'completed';
+  if(!ObjectID.isValid(_id)){
+    return res.status(404).send();
+  }
+
+  try {
+    var appoint  = await Schedule.findOneAndUpdate({_id, _instructorId}, {$set: body}, {new: true});
+    if(!appoint){
+      return res.status(404).send('Appointment was not found');
+    }
+    res.status(200).send(appoint);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+//GET Instructor Confirmed and Incomplete Appointments
 router.get('/schedule', autenticate, async (req, res) => {
   const _instructorId = req.user.id;
   if(!ObjectID.isValid(_instructorId)){
@@ -129,7 +150,7 @@ router.get('/schedule', autenticate, async (req, res) => {
   }
 
   try {
-    const schedule = await Schedule.find({_instructorId});
+    const schedule = await Schedule.find({_instructorId, confirmed: true, status: 'incomplete'});
     if(!schedule){
       return res.status(404).send('There are no appointments');
     }
@@ -139,6 +160,23 @@ router.get('/schedule', autenticate, async (req, res) => {
   }
 });
 
+//Get Instructor Appointments History (completed Appointments)
+router.get('/schedule/history', autenticate, async (req, res) => {
+  const _instructorId = req.user.id;
+  if(!ObjectID.isValid(_instructorId)){
+    return res.status(404).send('Instructor ID not valid');
+  }
+
+  try {
+    const schedule = await Schedule.find({_instructorId, confirmed: true, status: 'completed'});
+    if(!schedule){
+      return res.status(404).send('There are no appointments');
+    }
+    res.status(200).send(schedule);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
 
 //GET Unconfirmed appointments/ Instructor schedule
 router.get('/schedule/unconfirmed', autenticate, async (req, res) => {
@@ -158,7 +196,28 @@ router.get('/schedule/unconfirmed', autenticate, async (req, res) => {
   }
 });
 
-//GET a student Appointments
+//Confirm Appointment
+router.patch('/schedule/confirm', autenticate, async (req, res) => {
+  const _instructorId = req.user._id;
+  const _id = req.body._id;
+  const body = req.body;
+  req.body.confirmed = true;
+  if(!ObjectID.isValid(_id)){
+    return res.status(404).send();
+  }
+
+  try {
+    var appoint  = await Schedule.findOneAndUpdate({_id, _instructorId}, {$set: body}, {new: true});
+    if(!appoint){
+      return res.status(404).send('Appointment was not found');
+    }
+    res.status(200).send(appoint);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+//GET all Student Incomplete Appointments
 router.get('/schedule/:id', autenticate, async (req, res) => {
   const _instructorId = req.user.id;
   const _studentId = req.params.id;
@@ -167,7 +226,26 @@ router.get('/schedule/:id', autenticate, async (req, res) => {
   }
 
   try {
-    const studentSchedule = await Schedule.find({_instructorId, _studentId});
+    const studentSchedule = await Schedule.find({_instructorId, _studentId, status: 'incomplete'});
+    if(!studentSchedule){
+      return res.status(404).send();
+    }
+    res.status(200).send(studentSchedule);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+//GET all Student Completed Appointments
+router.get('/sessions/history/:id', autenticate, async (req, res) => {
+  const _instructorId = req.user.id;
+  const _studentId = req.params.id;
+  if(!ObjectID.isValid(_studentId)){
+    return res.status(404).send();
+  }
+
+  try {
+    const studentSchedule = await Schedule.find({_instructorId, _studentId, status: 'completed'});
     if(!studentSchedule){
       return res.status(404).send();
     }
@@ -219,6 +297,7 @@ router.post('/schedule', autenticate, async (req, res) => {
     }
 
     var obj = {
+      status: 'incomplete',
       _studentId: student._id,
       _instructorId: student._instructorId,
       date: {

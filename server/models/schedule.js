@@ -7,6 +7,9 @@ var ScheduleSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     trquired: true
   },
+  status: {
+    type: String
+  },
   date: {
     from: {
       type: Number,

@@ -1,6 +1,6 @@
 <div class="box">
   <div class="box-header">
-    <h3 class="box-title">Istoric Programari</h3>
+    <h3 class="box-title">Istoric Sesiuni</h3>
   </div>
   <!-- /.box-header -->
   <div class="box-body">
@@ -17,8 +17,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let schedule of studentSessions">
-          <td>{{schedule.sessionDate | date:'MMMM d'}}</td>
-          <td>{{schedule.duration}} ore</td>
+          <td>{{schedule.date.from | date:'MMMM d'}}</td>
+          <td>{{schedule.date.from | date: 'HH: mm'}} - {{schedule.date.to | date: 'HH: mm'}}</td>
         </tr>
       </tbody>
       <tfoot>

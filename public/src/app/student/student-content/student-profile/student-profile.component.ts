@@ -22,12 +22,17 @@ export class StudentProfileComponent implements OnInit {
     .subscribe(
         (res) => {
           this.myProfile = res;
-          this.sessionsCount = res.sessions.length;
         },
         (err) => {
           console.log(err);
         }
     );
+
+    this.studentHttpService.getPastAppointments()
+    .subscribe(
+      (res) => this.sessionsCount = res.length,
+      (err) => console.log(err)
+    )
   }
 
 }

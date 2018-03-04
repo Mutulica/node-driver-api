@@ -26,16 +26,24 @@ import { AddAppointmentComponent } from './instructor-content/student-profile/ad
 import { StudentPastSessionsComponent } from './instructor-content/student-profile/student-past-sessions/student-past-sessions.component';
 import { InstructorProfileComponent } from './instructor-content/instructor-profile/instructor-profile.component';
 import { InstructorProfileEditComponent } from './instructor-content/instructor-profile-edit/instructor-profile-edit.component';
+import { DashboardComponent } from './instructor-content/dashboard/dashboard.component';
+import { ScheduleUnconfirmedComponent } from './instructor-content/schedule-unconfirmed/schedule-unconfirmed.component';
+import { ScheduleHistoryComponent } from './instructor-content/schedule-history/schedule-history.component';
 
 //Instructor services
 import { InstructorHttpService } from './instructorHTTP.service';
 import { InstructorService } from './instructor.service';
 
 
+
+
 const router = [
   {path: 'instructor', component: InstructorComponent, canActivate: [AuthGuard], children: [
+    {path: 'dashboard', component: DashboardComponent},
     {path: 'calendar', component: InstructorCalendarComponent},
     {path: 'schedule-list', component: ScheduleListComponent},
+    {path: 'schedule-unconfirmed', component: ScheduleUnconfirmedComponent},
+    {path: 'schedule-history', component: ScheduleHistoryComponent},
     {path: 'students', component: StudentsComponent},
     {path: 'students/:id', component: StudentProfileComponent},
     {path: 'new-student', component: AddStudentComponent},
@@ -74,7 +82,10 @@ const router = [
     AddAppointmentComponent,
     StudentPastSessionsComponent,
     InstructorProfileComponent,
-    InstructorProfileEditComponent
+    InstructorProfileEditComponent,
+    DashboardComponent,
+    ScheduleUnconfirmedComponent,
+    ScheduleHistoryComponent
   ],
   providers: [
     AuthGuard,

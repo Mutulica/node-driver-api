@@ -20,10 +20,10 @@ export class StudentHttpService{
     option: RequestOptions = new RequestOptions({
      headers: this.headers
    });
-   //private url = "https://driving-school-app.herokuapp.com";
-   private url = "http://localhost:3000";
+   private url = "https://driving-school-app.herokuapp.com";
+   //private url = "http://localhost:3000";
 
-  //public myProfile = {};
+   // public myProfile = {};
    public myProfile: EventEmitter<any> = new EventEmitter<any>();
    public instructorAppointments: EventEmitter<any> = new EventEmitter<any>();
 
@@ -36,7 +36,7 @@ export class StudentHttpService{
     return this.http.get(this.url +'/student/me', this.option)
       .map(
         (res) => {
-          this.myProfile.emit(res.json());
+          //this.myProfile.emit(res.json());
           //this.myProfile = res.json();
           return res.json();
         }
@@ -69,9 +69,19 @@ export class StudentHttpService{
         })
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
   }
-
-  getStudentAppointments(){
-    return this.http.get(this.url +'/student/schedule', this.option)
+  //GET Next Appointments
+  getNextAppointments(){
+    return this.http.get(this.url +'/student/schedule/next', this.option)
+      .map(
+        (res) => res.json()
+      )
+      .catch(
+        (err) => err || 'Server Error!'
+      )
+  }
+//GET Appointments History
+  getPastAppointments(){
+    return this.http.get(this.url +'/student/schedule/past', this.option)
       .map(
         (res) => res.json()
       )

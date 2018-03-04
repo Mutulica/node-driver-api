@@ -33,15 +33,33 @@ router.post('/login', async (req, res) => {
   }
 });
 
-//GET Student Schedule
-router.get('/schedule', studentAuth, async (req, res) => {
+//GET Student Next Appointments ( status incomplete)
+router.get('/schedule/next', studentAuth, async (req, res) => {
   const _studentId = req.user.id;
   if(!ObjectID.isValid(_studentId)){
     return res.status(404).send('Student ID not valid');
   }
 
   try {
-    const schedule = await Schedule.find({_studentId});
+    const schedule = await Schedule.find({_studentId, status: 'incomplete', confirmed: true});
+    if(!schedule){
+      return res.status(404).send('There are no appointments');
+    }
+    res.status(200).send(schedule);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+//GET Student History Appointments ( status completed)
+router.get('/schedule/past', studentAuth, async (req, res) => {
+  const _studentId = req.user.id;
+  if(!ObjectID.isValid(_studentId)){
+    return res.status(404).send('Student ID not valid');
+  }
+
+  try {
+    const schedule = await Schedule.find({_studentId, status: 'completed'});
     if(!schedule){
       return res.status(404).send('There are no appointments');
     }
@@ -71,6 +89,7 @@ router.post('/schedule', studentAuth, async (req, res) => {
       return res.status(200).send(`${req.body.date} is not available. Chose another date.`);
     }
     var obj = {
+      status: 'incomplete',
       _studentId: student._id,
       _instructorId: student._instructorId,
       date: req.body.date,

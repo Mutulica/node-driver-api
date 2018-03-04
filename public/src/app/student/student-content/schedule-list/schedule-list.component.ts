@@ -18,7 +18,7 @@ export class ScheduleListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.studentHttpService.getStudentAppointments()
+    this.studentHttpService.getNextAppointments()
       .subscribe(
         (res) => {
           this.appointments = res.sort(this.utilsService.orderDateDesc);
