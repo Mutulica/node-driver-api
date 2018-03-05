@@ -16,7 +16,8 @@ export class InstructorHttpService {
 
   public studentsList: Object[] = [];
   public studentDetails: StudentDetails;
-  public studentAppointments: Object[] = [];
+  public studentNextAppointments: Object[] = [];
+  public studentPastAppointments: Object[] = [];
   public myProfile: EventEmitter<any> = new EventEmitter<any>();
   // public instructorProfile = {};
   //public allAppointments: Object[] = [];
@@ -66,8 +67,8 @@ export class InstructorHttpService {
   addAppointment(data){
     return this.http.post(this.url +'/instructor/schedule',data ,this.option)
       .map((res: Response) => {
-        this.studentAppointments.push(res.json());
-        this.studentAppointments = this.studentAppointments.sort(this.utilsService.orderDateDesc);
+        this.studentNextAppointments.push(res.json());
+        return this.studentNextAppointments = this.studentNextAppointments.sort(this.utilsService.orderDateDesc);
       })
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
   }
@@ -75,8 +76,8 @@ export class InstructorHttpService {
   getStudentAppointments(id){
     return this.http.get(this.url +'/instructor/schedule/' + id, this.option)
       .map((res: Response) =>{
-        this.studentAppointments = res.json();
-        return this.studentAppointments.sort(this.utilsService.orderDateDesc);
+        this.studentNextAppointments = res.json();
+        return this.studentNextAppointments.sort(this.utilsService.orderDateDesc);
       })
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'))
   }
@@ -84,8 +85,8 @@ export class InstructorHttpService {
   getStudentCompletedAppointments(id){
     return this.http.get(this.url +'/instructor/sessions/history/' + id, this.option)
       .map((res: Response) =>{
-        this.studentAppointments = res.json();
-        return this.studentAppointments.sort(this.utilsService.orderDateDesc);
+        this.studentPastAppointments = res.json();
+        return this.studentPastAppointments.sort(this.utilsService.orderDateDesc);
       })
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'))
   }

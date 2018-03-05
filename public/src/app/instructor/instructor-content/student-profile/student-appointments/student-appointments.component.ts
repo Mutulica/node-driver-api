@@ -31,7 +31,7 @@ export class StudentAppointmentsComponent implements OnInit {
       this.instructorHttpService.getStudentAppointments(this.studentId)
       .subscribe(
         (res) => {
-          this.studentConfirmedAppointments = this.instructorHttpService.studentAppointments.filter((el) => {
+          this.studentConfirmedAppointments = this.instructorHttpService.studentNextAppointments.filter((el) => {
             return el['confirmed'] === true;
           });
         },
@@ -51,11 +51,12 @@ export class StudentAppointmentsComponent implements OnInit {
       .subscribe(
         (res) => {
           if(res.n === 1){
+            this.appointmentIndex = undefined;
             var updatedAppointments = this.studentConfirmedAppointments.filter((el) => {
               return el._id !== this.appointmentId;
             });
             this.studentConfirmedAppointments = updatedAppointments.sort(this.utilsService.orderDateDesc);
-            this.instructorHttpService.studentAppointments = this.studentConfirmedAppointments;
+            this.instructorHttpService.studentNextAppointments = this.studentConfirmedAppointments;
 
           }
         },
