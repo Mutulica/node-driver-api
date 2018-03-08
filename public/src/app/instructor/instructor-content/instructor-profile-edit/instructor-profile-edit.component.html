@@ -1,4 +1,4 @@
-<div class="col-md-6">
+<div class="col-md-6" *ngIf="editingMode">
   <div class="box box-primary">
     <div class="box-header">
       <h3 class="box-title">Editeaza</h3>
@@ -14,7 +14,7 @@
             <div class="input-group-addon">
               <i class="fa fa-phone"></i>
             </div>
-            <input ngModel name="phone" type="text" class="form-control pull-right" [value]="myProfile.phone">
+            <input [(ngModel)]="myProfile.phone" name="phone" type="text" class="form-control pull-right">
           </div>
           <!-- /.input group -->
         </div>
@@ -26,7 +26,7 @@
             <div class="input-group-addon">
               <i class="fa fa-envelope"></i>
             </div>
-            <input ngModel name="email" type="email" class="form-control pull-right" [value]="myProfile.email || 'Email'">
+            <input [(ngModel)]="myProfile.email" name="email" type="email" class="form-control pull-right">
           </div>
           <!-- /.input group -->
         </div>
@@ -38,14 +38,14 @@
             <div class="input-group-addon">
               <i class="fa fa-map-marker"></i>
             </div>
-            <input ngModel name="address" type="text" class="form-control pull-right" [value]="myProfile.address  || 'Adresa'">
+            <input [(ngModel)]="myProfile.address" name="address" type="text" class="form-control pull-right">
           </div>
           <!-- /.input group -->
         </div>
         <!-- /.form group -->
         <div class="form-group">
           <label for="exampleInputFile">Imagine profil</label>
-          <input ngModel name="profileImage" type="file" id="profileImage" (change)="onFileChange($event)" #fileInput>
+          <input form="formGroup" ngModel name="profileImage" type="file" id="profileImage" (change)="onFileChange($event)" #fileInput>
           <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
           <p class="help-block">Example block-level help text here.</p>
         </div>
@@ -56,13 +56,24 @@
             <div class="input-group-addon">
               <i class="fa fa-pencil"></i>
             </div>
-            <textarea ngModel name="description" class="form-control" rows="4" [value]="myProfile.profileDescription || 'Descriere profil'"></textarea>
+            <textarea  [(ngModel)]="myProfile.profileDescription" name="description" class="form-control" rows="4" profileDescription></textarea>
           </div>
           <!-- /.input group -->
         </div>
         <!-- /.form group -->
+
+        <!-- <div *ngIf="displayResult === 'error'" class="alert alert-{{displayResult}} alert-dismissible">
+            <h4><i class="icon fa fa-check"></i> {{resultMessage}}</h4>
+        </div> -->
         <div class="input-group">
-          <button [disabled]="form.untouched && !form.dirty" (click)="onEditProfile(form)" type="button" class="btn btn-block btn-primary">Salveaza</button>
+          <button type="submit"
+          [disabled]="form.invalid || loading || form.untouched && !form.dirty"
+          (click)="onEditProfile(form)"
+          class="btn btn-primary">
+          Salveaza
+            <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+          </button>
+          <button (click)="goBack()" type="button" class="btn btn-block btn-default">Inapoi</button>
         </div>
      </form>
 
@@ -70,7 +81,7 @@
     <!-- /.box-body -->
   </div>
 </div>
-<div class="col-md-6">
+<div class="col-md-6" *ngIf="!editingMode">
   <div class="box box-primary">
     <div class="box-header with-border">
       <h3 class="box-title">Detalii Actuale</h3>
@@ -105,8 +116,20 @@
       <p class="text-muted">
        {{myProfile.profileDescription}}
       </p>
-
+      <hr>
+      <div *ngIf="displayResult" >
+        <div class="alert alert-{{displayResult}} alert-dismissible">
+            <h4><i class="icon fa fa-check"></i> {{resultMessage}}</h4>
+        </div>
+        <hr>
+      </div>
+      <button (click)='onEditing(myProfile)' class="btn btn-primary">Editeaza</button>
     </div>
     <!-- /.box-body -->
   </div>
 </div>
+<section>
+  <div class="row">
+    <app-edit-schedule [myProfile]="myProfile"></app-edit-schedule>
+  </div>
+</section>

@@ -7,6 +7,7 @@ var {Schedule} = require('../models/schedule');
 var {autenticate} = require('../middleweare/autenticate');
 const {ObjectID} = require('mongodb');
 
+
 //Register instructor
 router.post('/register', async (req, res) => {
   try {
@@ -76,6 +77,7 @@ router.patch('/me', autenticate, async (req, res) => {
     res.status(400).send(e);
   }
 });
+
 
 //Register a student
 router.post('/student', autenticate, async (req, res) => {

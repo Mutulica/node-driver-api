@@ -3,6 +3,9 @@ import { ActivatedRoute} from '@angular/router';
 
 import { DateTimeAdapter } from 'ng-pick-datetime';
 
+//import { ScheduleModel } from '../../../models/schedule.model';
+
+import { InstructorService } from '../../../instructor.service';
 import { InstructorHttpService } from '../../../instructorHTTP.service';
 import { UtilsService } from '../../../../shared/utils/utils.service';
 
@@ -13,9 +16,9 @@ import { UtilsService } from '../../../../shared/utils/utils.service';
 })
 export class AddAppointmentComponent implements OnInit {
 
-  public selectedMoment;
+  public selectedMoment = new Date();
   private studentId = this.route.snapshot.params['id'];
-  public schedule = [];
+  public schedule;
   private instructorSchedule = [];
   private instructorAppoint = [];
   private scheduleIndex : number;
@@ -25,6 +28,7 @@ export class AddAppointmentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public instructorService: InstructorService,
     public instructorHttpService: InstructorHttpService,
     public utilsService: UtilsService,
     private dateTimeAdapter: DateTimeAdapter<any>
@@ -37,7 +41,9 @@ export class AddAppointmentComponent implements OnInit {
     this.instructorHttpService.getMyProfile().subscribe(
       (res) => {
         this.instructorSchedule = res.instructorSchedule;
-      }
+        console.log(res);
+      },
+      err => console.log(err)
     );
   }
 
@@ -65,24 +71,38 @@ export class AddAppointmentComponent implements OnInit {
 
   onInputChange(input){
     if(this.selectedMoment){
-      this.schedule = this.utilsService.buildSchedule(this.instructorSchedule, this.selectedMoment.getDay());
-      var someArr = this.schedule.filter((element, index)=>{
-        for(let i = 0; i < this.instructorAppoint.length; i++){
-          const fromDate = this.utilsService.appendDateTime(this.selectedMoment.getTime(), element.from);
-          if(fromDate === this.instructorAppoint[i].date.from){
-            return element;
+      this.getInstructorAppointments();
+      this.schedule = this.utilsService.buildScheduleFromMS(this.instructorSchedule, this.selectedMoment.getDay());
+      if(this.schedule){
+        var someArr = this.schedule.filter((element) => {
+          for(let i = 0; i < this.instructorAppoint.length; i++){
+            const fromDate = this.selectedMoment.setHours(
+              new Date(element.from).getHours(), new Date(element.from).getMinutes()
+            );
+            if(fromDate == this.instructorAppoint[i].date.from){
+              return element;
+            }
           }
-        }
-      });
-      this.schedule = this.schedule.filter(val => !someArr.includes(val));
-      this.toggleSchedule = true;
+        });
+        this.schedule = this.schedule.filter(val => !someArr.includes(val));
+        this.toggleSchedule = true;
+      }
+
     }
   }
 
   addNewAppointment(){
+    const scheduleFrom = this.schedule[this.scheduleIndex].from;
+    const scheduleTo = this.schedule[this.scheduleIndex].to;
     if(this.selectedMoment != undefined){
-      const from = this.utilsService.appendDateTime(this.selectedMoment.getTime(), this.schedule[this.scheduleIndex].from);
-      const to = this.utilsService.appendDateTime(this.selectedMoment.getTime(), this.schedule[this.scheduleIndex].to);
+      const from = new Date(
+        this.selectedMoment.setHours(
+          new Date(scheduleFrom).getHours(), new Date(scheduleFrom).getMinutes()
+      )).getTime();
+      const to = new Date(
+        this.selectedMoment.setHours(
+          new Date(scheduleTo).getHours(), new Date(scheduleTo).getMinutes()
+      )).getTime();
       var data = {
         studentId: this.studentId,
         date: {
@@ -94,6 +114,7 @@ export class AddAppointmentComponent implements OnInit {
       this.instructorHttpService.addAppointment(data)
         .subscribe(
           (res) => {
+            this.schedule.splice(this.scheduleIndex, 1);
             this.scheduleIndex = undefined;
             this.toggleSchedule = false;
           },

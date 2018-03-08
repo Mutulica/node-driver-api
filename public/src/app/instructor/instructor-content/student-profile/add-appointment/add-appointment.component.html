@@ -18,6 +18,7 @@
           (focus)="onInputChange(input)"
           class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask=""
           [(ngModel)]="selectedMoment"
+          [min]="selectedMoment"
           [owlDateTimeFilter]="myFilter"
           [owlDateTimeTrigger]="dt6"
           [owlDateTime]="dt6">
@@ -28,21 +29,34 @@
             [startView]="'month'" #dt6>
           </owl-date-time>
         </div>
-        <p *ngIf="selectedMoment && this.schedule.length == 0 ">Nu sunt ore disponibile in data selectata</p>
-        <div *ngIf="selectedMoment && this.schedule.length > 0">
-          <hr>
-          <label>Ore disponibile:</label>
-          <div *ngFor="let time of schedule; let i=index">
-            <button (click)="onSelectTime(i)" type="button" class="btn btn-block btn-success">{{time.from}} - {{time.to}}</button>
-            <br>
-          </div>
-          <div *ngIf="this.scheduleIndex >= 0">
-            <p>Data: {{selectedMoment | date:'MMMM d'}}</p>
-            <p>Ora: {{schedule[scheduleIndex].from}} - {{schedule[scheduleIndex].to}}</p>
-            <button (click)="addNewAppointment()" type="button" class="btn btn-block btn-primary">Adauga Programarea</button>
-          </div>
-        </div>
+        <owl-date-time-inline
+        [min]=""
+        [owlDateTimeFilter]="myFilter"
+        [(ngModel)]="selectedMoment"
+        [pickerType]="'calendar'"
+        (click)="onInputChange()"
+        [firstDayOfWeek]="1"
+        ></owl-date-time-inline>
     </div>
   </div>
-
+  <div *ngIf="selectedMoment">
+    <hr>
+    <div class="col-md-6">
+      <label>Ore disponibile:</label>
+      <p *ngIf="selectedMoment && !this.schedule">Nu sunt ore disponibile in data selectata</p>
+      <div class="form-group" *ngFor="let time of schedule; let i=index">
+        <div class="radio">
+          <label>
+            <input (click)="onSelectTime(i)" type="radio" name="optionsRadios" id="optionsRadios1" [value]="i">
+            {{time.from | date: 'HH: mm'}} - {{time.to | date: 'HH: mm'}}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" *ngIf="this.scheduleIndex >= 0">
+      <p>Data: {{selectedMoment | date:'MMMM d'}}</p>
+      <p>Ora: {{schedule[scheduleIndex].from | date: 'HH: mm'}} - {{schedule[scheduleIndex].to | date: 'HH: mm'}}</p>
+      <button (click)="addNewAppointment()" type="button" class="btn btn-block btn-primary">Adauga Programarea</button>
+    </div>
+  </div>
 </div>

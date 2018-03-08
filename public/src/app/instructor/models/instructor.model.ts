@@ -6,7 +6,15 @@ export class Instructor {
      address: String,
      email: String,
      profileDescription: String,
-     profileImage: Object
+     instructorSchedule: Object
   }
-  constructor(){}
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public phone: number,
+    public address: string,
+    public  email: string,
+    public  profileDescription: string,
+    public  instructorSchedule: any,
+  ){}
 }

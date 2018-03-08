@@ -40,6 +40,9 @@ InstructorSchema = new mongoose.Schema({
     type: String,
     maxlength: 500
   },
+  profileImage: {
+    
+  },
   instructorSchedule: [{
     day : {
       type: Number
@@ -67,13 +70,17 @@ InstructorSchema = new mongoose.Schema({
       type: String,
       required: true
     }
-  }]
+  }],
+  registeredAt:{
+    type: Number,
+    default: new Date().getTime()
+  }
 });
 
 InstructorSchema.methods.toJSON = function() {
   var user = this;
   var userObj = user.toObject();
-  return _.pick(userObj, ['_id', 'firstName', 'lastName', 'email', 'phone', 'address','profileDescription', 'instructorSchedule']);
+  return _.pick(userObj, ['_id', 'firstName', 'lastName', 'email', 'phone', 'address','profileDescription', 'instructorSchedule', 'registeredAt']);
 }
 
 //generate token

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
+import { InstructorService } from '../../instructor.service';
 import { InstructorHttpService } from '../../instructorHTTP.service';
 import { UtilsService } from '../../../shared/utils/utils.service';
 
@@ -10,31 +12,24 @@ import { UtilsService } from '../../../shared/utils/utils.service';
 })
 export class InstructorProfileComponent implements OnInit {
 
-  public myProfile = {};
-  public workingSchedule = [];
+  public myProfile: Object = {};
+  //public workingSchedule = [];
   public daysOfWeek = this.utilsService.daysOfWeek;
+  subscription: Subscription;
 
   constructor(
+    private instructorService: InstructorService,
     private instructorHttpService: InstructorHttpService,
     private utilsService: UtilsService
   ) { }
 
   ngOnInit() {
-    this.instructorHttpService.getMyProfile().subscribe(
-      (res) => {
-        //this.myProfile = res.sort(this.utilsService.orderDayAsc);
-        this.workingSchedule = res.instructorSchedule.sort(this.utilsService.orderDayAsc);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
 
-    this.instructorHttpService.myProfile.subscribe(
-      (res) => {
-        this.myProfile = res;
-      }
+    this.instructorService.myProfile.subscribe(
+      (res) => this.myProfile = res,
+      (err) => console.log(err)
     );
+    this.myProfile = this.instructorService.instructorProfile;
   }
 
 }

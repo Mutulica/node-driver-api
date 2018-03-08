@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { InstructorHttpService } from '../../instructorHTTP.service';
+import { InstructorService } from '../../instructor.service';
 import { UtilsService } from '../../../shared/utils/utils.service';
 
 @Component({
@@ -14,17 +15,16 @@ export class ScheduleUnconfirmedComponent implements OnInit {
 
   constructor(
     private instructorHttpService: InstructorHttpService,
+    private instructorService: InstructorService,
     private utilsService: UtilsService
   ) { }
 
   ngOnInit() {
-    this.instructorHttpService.getUnconfirmedAppointments()
-      .subscribe(
-        (res) => {
-          this.unconfirmedAppoint = res.sort(this.utilsService.orderDateDesc);
-        },
-        (err) => console.log(err)
-      )
+
+    this.instructorService.unAppoint.subscribe(
+      (res) => this.unconfirmedAppoint = res
+    );
+    this.unconfirmedAppoint = this.instructorService.unconfirmedAppoints;
   }
 
   onConfirmAppoint(appoint){

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
 import { InstructorHttpService } from '../instructorHTTP.service';
+import { InstructorService } from '../instructor.service';
 import { UtilsService } from '../../shared/utils/utils.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class InstructorHeaderComponent implements OnInit {
   constructor(
     private route: Router,
     private instructorHttpService: InstructorHttpService,
+    private instructorService: InstructorService,
     private authService: AuthService,
     private utilsService: UtilsService
   ) { }
@@ -37,7 +39,6 @@ export class InstructorHeaderComponent implements OnInit {
       this.instructorHttpService.getMyAppointments().subscribe(
         (res) =>{
           this.completedAppoint = res.filter(this.utilsService.filterFutureAppoint).sort(this.utilsService.orderDateDesc);
-          console.log(this.completedAppoint);
         },
         (err) => console.log(err)
       );

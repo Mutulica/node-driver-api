@@ -26,9 +26,9 @@ export class StudentsComponent implements OnInit {
       .subscribe(
         (res : StudentDetails[]) => {
           this.students = res;
-          res.forEach((el) => {
-            this.countPastAppointments(el["_id"]);
-          });
+          // res.forEach((el) => {
+          //   this.countPastAppointments(el["_id"]);
+          // });
         },
         (err: any) => {
           console.log(err);

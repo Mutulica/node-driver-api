@@ -2,32 +2,39 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from "rxjs/Observable"
 import { Subject } from 'rxjs/Subject';
 
-import { InstructorHttpService } from './instructorHTTP.service';
 import { UtilsService } from '../shared/utils/utils.service';
+import { Instructor } from './models/instructor.model';
 import {StudentDetails} from './models/student-details.model';
 
 @Injectable()
 
 export class InstructorService {
 
-  public instructorAppointments: Observable<any> = new Observable;
+  public instructorProfile: Instructor;
+  public unconfirmedAppoints = [];
+  public myProfile = new Subject<any>();
+  public unAppoint = new Subject<any>();
+
+  public newAppoint: EventEmitter<any> = new EventEmitter<any>();
+
   public studentDetails = {};
-  // public studentsArray = [];
+  public studentsArray = [];
   public studentAppointments = [];
 
   constructor(
-    private instructorHttp: InstructorHttpService,
     private utilsService: UtilsService
   ){}
 
-  // getAppointments(){
-  //   this.instructorHttp.getAppointments().subscribe(
-  //     (res: Object[]) => {
-  //       //this.instructorAppointments = res.filter(this.utilsService.filterPastAppoint).sort(this.utilsService.orderDateDesc);
-  //       this.instructorAppointments.next(res.filter(this.utilsService.filterPastAppoint).sort(this.utilsService.orderDateDesc));
-  //       console.log(this.instructorAppointments);
-  //       return res;
-  //     }
-  //   );
-  // }
+  setProfile(res){
+    this.instructorProfile = res;
+    this.myProfile.next(res);
+  }
+  setStudents(res){
+    this.studentsArray = res;
+  }
+
+  setUnconfirmedAppointments(res){
+    this.unconfirmedAppoints = res;
+    this.unAppoint.next(res);
+  }
 }

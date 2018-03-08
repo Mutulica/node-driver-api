@@ -33,6 +33,7 @@ import { ScheduleHistoryComponent } from './instructor-content/schedule-history/
 //Instructor services
 import { InstructorHttpService } from './instructorHTTP.service';
 import { InstructorService } from './instructor.service';
+import { EditScheduleComponent } from './instructor-content/instructor-profile-edit/edit-schedule/edit-schedule.component';
 
 
 
@@ -85,7 +86,8 @@ const router = [
     InstructorProfileEditComponent,
     DashboardComponent,
     ScheduleUnconfirmedComponent,
-    ScheduleHistoryComponent
+    ScheduleHistoryComponent,
+    EditScheduleComponent
   ],
   providers: [
     AuthGuard,

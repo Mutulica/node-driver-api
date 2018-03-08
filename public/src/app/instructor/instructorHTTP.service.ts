@@ -1,12 +1,14 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { StudentDetails } from './models/student-details.model';
 
+import { InstructorService } from './instructor.service';
 import { UtilsService } from '../shared/utils/utils.service';
 import { AuthService } from '../auth/auth.service';
 
@@ -14,20 +16,19 @@ import { AuthService } from '../auth/auth.service';
 
 export class InstructorHttpService {
 
+  //public instructorProfile = new Subject<any>();;
   public studentsList: Object[] = [];
   public studentDetails: StudentDetails;
   public studentNextAppointments: Object[] = [];
   public studentPastAppointments: Object[] = [];
-  public myProfile: EventEmitter<any> = new EventEmitter<any>();
-  // public instructorProfile = {};
-  //public allAppointments: Object[] = [];
+
   //private url = "https://driving-school-app.herokuapp.com";
   private url = "http://localhost:3000";
 
   constructor(
     private http: Http,
     private authService: AuthService,
-    //private instructorService: InstructorService,
+    private instructorService: InstructorService,
     private utilsService: UtilsService
   ){}
 
@@ -41,12 +42,20 @@ export class InstructorHttpService {
     headers: this.headers
   });
 
+  uploadProfileImage(image){
+    console.log(image);
+    return this.http.post(this.url + '/upload/', image,this.option)
+      .map((res: Response) =>{
+        return res.json();
+      })
+      .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
+  }
+
   //GET Instructor Details
   getMyProfile(){
     return this.http.get(this.url + '/instructor/me', this.option)
       .map((res: Response) =>{
-        // this.instructorProfile = res.json();
-        this.myProfile.emit(res.json());
+        this.instructorService.setProfile(res.json());
         return res.json();
       })
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
@@ -67,8 +76,9 @@ export class InstructorHttpService {
   addAppointment(data){
     return this.http.post(this.url +'/instructor/schedule',data ,this.option)
       .map((res: Response) => {
-        this.studentNextAppointments.push(res.json());
-        return this.studentNextAppointments = this.studentNextAppointments.sort(this.utilsService.orderDateDesc);
+        //this.studentNextAppointments.push(res.json());
+        this.instructorService.newAppoint.emit(res.json());
+        //this.studentNextAppointments = this.studentNextAppointments.sort(this.utilsService.orderDateDesc);
       })
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
   }
@@ -93,7 +103,10 @@ export class InstructorHttpService {
   //Get all students
   getStudents(){
     return this.http.get(this.url +'/instructor/students', this.option)
-      .map((res: Response) => this.studentsList = res.json())
+      .map((res: Response) => {
+        this.instructorService.setStudents(res.json());
+        return res.json();
+      })
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
   }
   //Get one Student
@@ -117,7 +130,10 @@ export class InstructorHttpService {
   //Get Unconfirmed Appointments
   getUnconfirmedAppointments(){
     return this.http.get(this.url +'/instructor/schedule/unconfirmed', this.option)
-      .map((res: Response) => res.json())
+      .map((res: Response) => {
+        this.instructorService.setUnconfirmedAppointments(res.json());
+        return res.json()
+      })
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error!'));
   }
 

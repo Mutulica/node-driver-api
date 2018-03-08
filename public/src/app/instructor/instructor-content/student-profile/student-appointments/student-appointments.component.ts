@@ -28,10 +28,10 @@ export class StudentAppointmentsComponent implements OnInit {
 
   ngOnInit() {
 
-      this.instructorHttpService.getStudentAppointments(this.studentId)
+    this.instructorHttpService.getStudentAppointments(this.studentId)
       .subscribe(
         (res) => {
-          this.studentConfirmedAppointments = this.instructorHttpService.studentNextAppointments.filter((el) => {
+          this.studentConfirmedAppointments = res.filter((el) => {
             return el['confirmed'] === true;
           });
         },
@@ -39,6 +39,13 @@ export class StudentAppointmentsComponent implements OnInit {
           console.log(err);
         }
       );
+
+      this.instructorService.newAppoint.subscribe(
+        (res) => {
+          this.studentConfirmedAppointments.push(res);
+          this.studentConfirmedAppointments = this.studentConfirmedAppointments.sort(this.utilsService.orderDateDesc);
+        }
+      )
   }
 
   onAppointmentId(id, index){
