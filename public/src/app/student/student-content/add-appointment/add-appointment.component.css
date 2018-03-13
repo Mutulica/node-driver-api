@@ -1,7 +1,6 @@
 .owl-dt-inline-container, .owl-dt-popup-container {
-    position: relative;
     width: 100% !important;
-    box-shadow: 0 0;
+    box-shadow: none !important;
 }
 
 .datepicker-inline {

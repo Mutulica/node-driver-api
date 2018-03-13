@@ -12,6 +12,7 @@ export class StudentProfileComponent implements OnInit {
 
   public myProfile = {};
   public sessionsCount = 0;
+  public loading = true;
 
   constructor(
     private studentHttpService: StudentHttpService
@@ -22,6 +23,10 @@ export class StudentProfileComponent implements OnInit {
     .subscribe(
         (res) => {
           this.myProfile = res;
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+
         },
         (err) => {
           console.log(err);
