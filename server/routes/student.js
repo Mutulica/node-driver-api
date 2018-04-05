@@ -27,11 +27,23 @@ router.post('/login', async (req, res) => {
     var pass = req.body.password;
     const student = await Student.findByCredentials(email, pass);
     const token = await student.generateAuthToken();
-    res.header('x-auth', token).send({token});
+    res.header('x-auth', token).send({token, student});
   } catch (e) {
     res.status(400).send(e);
   }
 });
+
+//Student Logout
+router.delete('/logout', studentAuth, (req, res) => {
+    console.log(req.user);
+  req.user.removeToken(req.token).then(() => {
+    res.status(200).send({message: 'User logged out'});
+  },
+  (e) => {
+    res.status(400).send(err)
+  });
+});
+
 
 //GET Student Next Appointments ( status incomplete)
 router.get('/schedule/next', studentAuth, async (req, res) => {
@@ -72,7 +84,6 @@ router.get('/schedule/past', studentAuth, async (req, res) => {
 //Student Make Appointment
 router.post('/schedule', studentAuth, async (req, res) => {
   const _id = req.user.id;
-  const _instructorId = req.params.id;
 
   if(!ObjectID.isValid(_id)){
     return res.status(404).send('Student ID is Invalid!')
@@ -108,5 +119,55 @@ router.post('/schedule', studentAuth, async (req, res) => {
     res.status(400).send(e);
   }
 });
+
+//Student Request Appointment
+// router.post('/session/request', studentAuth, async (req, res) => {
+//   const _id = req.user.id;
+//
+//   if(!ObjectID.isValid(_id)){
+//     return res.status(404).send('Student ID is Invalid!')
+//   }
+//
+//   try {
+//
+//     const student = await Student.findById({_id});
+//     if(!student){
+//       return res.status(200).send('Not Found');
+//     }
+//
+//     var obj = {
+//       status: 'incomplete',
+//       _studentId: student._id,
+//       _instructorId: student._instructorId,
+//       date: {
+//         from: req.body.from,
+//         to: req.body.to
+//       },
+//       firstName: student.firstName,
+//       lastName: student.lastName,
+//       phone: student.phone,
+//       email: student.email,
+//       confirmed: false
+//     };
+//     var appointment = new Schedule(obj);
+//
+//     const saved = await appointment.save();
+//     if(!saved){
+//       return res.status(404).send();
+//     }
+//     student.sessions.push({
+//       from: req.body.from,
+//       to: req.body.to,
+//       appointId: saved._id,
+//       status: obj.status,
+//       confirmed: obj.confirmed
+//     });
+//     await student.save();
+//     res.status(200).send(student);
+//
+//   } catch (e) {
+//     res.status(400).send(e);
+//   }
+// });
 
 module.exports = router;

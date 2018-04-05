@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 
+var {Session} = require('./session');
+
 var StudentSchema = new mongoose.Schema({
   email:  {
     required: true,
@@ -44,14 +46,7 @@ var StudentSchema = new mongoose.Schema({
     type: Number,
     default: new Date().getTime()
   },
-  sessions: [{
-    from: {
-      type: Number
-    },
-    to: {
-      type: String
-    }
-  }],
+  sessions: [],
   tokens: [{
     access: {
       type: String,
@@ -79,6 +74,17 @@ StudentSchema.methods.generateAuthToken = function() {
   user.tokens.push({access, token});
   return user.save().then(() => {
     return token;
+  });
+};
+
+StudentSchema.methods.removeToken = function (token) {
+  var user = this;
+  return user.update({
+      $pull : {
+        tokens: {
+          token
+        }
+      }
   });
 };
 
