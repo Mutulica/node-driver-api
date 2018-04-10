@@ -2,7 +2,7 @@
     <!-- Add the bg color to the header using any of the bg-* classes -->
     <div class="widget-user-header bg-aqua-active">
       <h3 class="widget-user-username">{{student.firstName}} {{student.lastName}}</h3>
-      <h5 class="widget-user-desc">Telefon: {{student.phone}}</h5>
+      <!-- <h5 class="widget-user-desc">Telefon: {{student.phone}}</h5> -->
     </div>
     <div class="widget-user-image">
       <img class="img-circle" src="/assets/img/user1-128x128.jpg" alt="User Avatar">
@@ -20,21 +20,22 @@
         <div class="col-sm-4 border-right">
           <div class="description-block">
             <span class="description-text">Sedinte Ramase</span>
-            <h5 class="description-header">{{16 - sessionsCount}}</h5>
+            <h5 class="description-header">{{15 - sessionsCount}}</h5>
           </div>
           <!-- /.description-block -->
         </div>
         <!-- /.col -->
         <div class="col-sm-4">
           <div class="description-block">
-            <span class="description-text">Urmatoarea Sedinta</span>
-            <h5 class="description-header">PLM</h5>
+            <span class="description-text">Telefon</span>
+            <h5 class="description-header">{{student.phone}}</h5>
           </div>
           <!-- /.description-block -->
         </div>
         <!-- /.col -->
 
       </div>
+      <hr>
       <!-- /.row -->
       <!-- <div class="">
         <div class="box-footer no-padding"> -->
@@ -42,11 +43,11 @@
         <app-add-appointment></app-add-appointment>
 
           <div class="col-md-6">
-            <h3>Detalii</h3>
+            <!-- <h3>Detalii</h3> -->
             <ul class="nav nav-stacked">
-              <li><a href="#">Email: <span class="pull-right">{{student.email}}</span></a></li>
-              <li><a href="#">Examen <span class="pull-right badge bg-blue">{{student.registeredAt | date:'MMMM d, y'}}</span></a></li>
-              <li><a href="#">Inregistrat: <span class="pull-right badge bg-default">{{student.registeredAt | date:'MMMM d, y'}}</span></a></li>
+              <li><a>Email: <span class="pull-right">{{student.email}}</span></a></li>
+              <li><a>Examen <span class="pull-right badge bg-blue">{{student.registeredAt | date:'MMMM d, y HH: mm'}}</span></a></li>
+              <li><a>Inregistrat: <span class="pull-right badge bg-default">{{student.registeredAt | date:'MMMM d, y'}}</span></a></li>
             </ul>
           </div>
 

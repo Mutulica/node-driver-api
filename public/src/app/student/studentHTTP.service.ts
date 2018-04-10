@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Output} from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
@@ -11,33 +11,40 @@ import { AuthService } from '../auth/auth.service';
 
 export class StudentHttpService{
 
-
-    headers: Headers = new Headers({
-     'Content-Type': 'application/json',
-     'x-auth' : this.authService.token
-   });
-
-    option: RequestOptions = new RequestOptions({
-     headers: this.headers
-   });
    //private url = "https://driving-school-app.herokuapp.com";
    private url = "http://localhost:3000";
 
-   // public myProfile = {};
-   public myProfile: EventEmitter<any> = new EventEmitter<any>();
+   @Output() public myProfile: EventEmitter<any> = new EventEmitter();
+   //public myProfile = {};
    public instructorAppointments: EventEmitter<any> = new EventEmitter<any>();
+   public loading = false;
+   //Set token owner for getting the local storage token
+   private tokenOwner: string = 'student';
 
   constructor(
     private http: Http,
     private authService: AuthService,
-  ){}
+  ){
 
-  getStudentProfile(){
-    return this.http.get(this.url +'/student/me', this.option)
+  }
+
+  logout(){
+    return this.http.delete(this.url + '/student/logout', this.authService.setHeaders(this.tokenOwner))
       .map(
         (res) => {
-          //this.myProfile.emit(res.json());
-          //this.myProfile = res.json();
+          return res.json();
+        }
+      ).catch(
+        (err) => err || 'Server Error'
+      )
+  }
+
+  getStudentProfile(){
+    return this.http.get(this.url +'/student/me', this.authService.setHeaders(this.tokenOwner))
+      .map(
+        (res) => {
+          this.loading = false;
+          this.myProfile.emit(res.json());
           return res.json();
         }
       )
@@ -48,7 +55,7 @@ export class StudentHttpService{
 
   //Get Instructor Profile from Public Route
   getInstructorProfile(instructorId){
-    return this.http.get(this.url +'/public/instructor/' + instructorId, this.option)
+    return this.http.get(this.url +'/public/instructor/' + instructorId, this.authService.setHeaders(this.tokenOwner))
       .map(
         (res) => {
           return res.json();
@@ -61,9 +68,10 @@ export class StudentHttpService{
 
   //Get all Instructor Appointments from public route
   getInstructorAppointments(instructorId){
-    return this.http.get(this.url +'/public/instructor-schedule/' + instructorId, this.option)
+    return this.http.get(this.url +'/public/instructor-schedule/' + instructorId, this.authService.setHeaders(this.tokenOwner))
       .map(
         (res: Response) => {
+        this.loading = false;
         this.instructorAppointments.emit(res.json());
         return  res.json()
         })
@@ -71,7 +79,7 @@ export class StudentHttpService{
   }
   //GET Next Appointments
   getNextAppointments(){
-    return this.http.get(this.url +'/student/schedule/next', this.option)
+    return this.http.get(this.url +'/student/schedule/next', this.authService.setHeaders(this.tokenOwner))
       .map(
         (res) => res.json()
       )
@@ -81,7 +89,7 @@ export class StudentHttpService{
   }
 //GET Appointments History
   getPastAppointments(){
-    return this.http.get(this.url +'/student/schedule/past', this.option)
+    return this.http.get(this.url +'/student/schedule/past', this.authService.setHeaders(this.tokenOwner))
       .map(
         (res) => res.json()
       )
@@ -91,9 +99,12 @@ export class StudentHttpService{
   }
 
   addAppointment(data){
-    return this.http.post(this.url +'/student/schedule', data,this.option)
+    return this.http.post(this.url +'/student/schedule', data,this.authService.setHeaders(this.tokenOwner))
       .map(
-        (res) => res.json()
+        (res) => {
+          this.loading = false;
+          return res.json();
+        }
       )
       .catch(
         (err) => err || 'Server Error!'

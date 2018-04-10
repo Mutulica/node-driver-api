@@ -1,4 +1,4 @@
-<div class="box box-widget widget-user">
+<div class="box box-widget widget-user" *ngIf="myProfile">
   <!-- Add the bg color to the header using any of the bg-* classes -->
   <div class="widget-user-header bg-aqua-active">
     <h3 class="widget-user-username">{{myProfile.firstName}} {{myProfile.lastName}}</h3>
@@ -51,7 +51,7 @@
 
   </div>
   <!-- Loading (remove the following to stop the loading)-->
-  <div class="overlay" *ngIf="loading">
+  <div class="overlay" *ngIf="studentHttpService.loading">
     <i class="fa fa-refresh fa-spin"></i>
   </div>
   <!-- end loading -->

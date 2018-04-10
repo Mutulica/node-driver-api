@@ -26,9 +26,8 @@ router.post('/login', async (req, res) => {
     var email = req.body.email;
     var pass = req.body.password;
     const instructor = await Instructor.findByCredentials(email, pass);
-
     const token = await instructor.generateAuthToken();
-    res.header('x-auth', token).send({token});
+    res.header('x-auth', token).send({token, instructor});
   } catch (e) {
     res.status(400).send(e);
   }

@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../auth.service';
+import { StudentHttpService } from '../../student/studentHTTP.service';
 
 @Component({
   selector: 'app-student-login',
@@ -15,12 +16,16 @@ export class StudentLoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private studentHttpService: StudentHttpService
   ) { }
 
   ngOnInit() {
     // reset login status
-    this.authService.logout();
+    //this.authService.logoutStudent();
+    if (localStorage.getItem('student')) {
+      this.router.navigate(['/student/profile']);
+    }
   }
 
   onLogin(form: NgForm){
@@ -29,7 +34,7 @@ export class StudentLoginComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res === true) {
-              this.router.navigate(['/student/profile']);
+            this.router.navigate(['/student/profile']);
           } else {
               this.error = 'Email-ul sau parola sunt incorecte';
           }

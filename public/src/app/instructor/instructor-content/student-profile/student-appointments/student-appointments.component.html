@@ -19,14 +19,14 @@
           <tr *ngFor="let appointment of studentConfirmedAppointments; let i = index">
             <td>{{appointment.date.from | date:'MMMM d'}}</td>
             <td>{{appointment.date.from | date:'H: mm'}} - {{appointment.date.to | date:'H: mm'}}</td>
-            <td>
-              <button (click)="onAppointmentId(appointment._id, i)" type="button" class="btn btn-warning btn-xs pull-left" data-toggle="modal" data-target="#modal-default">
+            <td class="text-center">
+              <!-- <button (click)="onAppointmentId(appointment._id, i)" type="button" class="btn btn-warning btn-xs pull-left" data-toggle="modal" data-target="#modal-default">
                 Reprogrameaza
-              </button>
+              </button> -->
               <button
               (click)="onAppointmentId(appointment._id,i)"
                 type="button"
-                class="btn btn-danger btn-xs pull-right"
+                class="btn btn-danger btn-xs"
                 data-toggle="modal"
                 data-target="#modal-danger">
                 Anulare</button>

@@ -46,7 +46,7 @@ export class InstructorHeaderComponent implements OnInit {
 
   onLogout(){
 
-    this.authService.logout();
+    //this.authService.logoutInstructor();
     // this.authService.logout().subscribe(
     //   (res) => {
     //     this.authService.token = null;

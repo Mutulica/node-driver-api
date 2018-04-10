@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StudentService } from '../studentService.service';
 
 @Component({
   selector: 'app-student-content',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudentContentComponent implements OnInit {
 
-  constructor() { }
+  public myProfile;
+  constructor(
+    private stundetservice: StudentService
+  ) { }
 
   ngOnInit() {
+    this.myProfile = this.stundetservice.getUserData();
   }
 
 }

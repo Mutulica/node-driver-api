@@ -33,7 +33,7 @@ export class StudentProfileComponent implements OnInit {
       this.instructorHttpService.getStudent(this.studentId).subscribe(
         (res) => {
           this.student = res;
-          this.sessionsCount = res.sessions.length;
+          //this.sessionsCount = res.sessions.length;
         },
         (err) => {
           console.log(err);
@@ -45,6 +45,7 @@ export class StudentProfileComponent implements OnInit {
     .subscribe(
       (res) => {
         this.sessionsCount = res.length;
+        console.log(res.length);
       },
       (err) => {
         console.log(err);

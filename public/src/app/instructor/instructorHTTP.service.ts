@@ -35,7 +35,7 @@ export class InstructorHttpService {
   // add authorization header with jwt token
    headers: Headers = new Headers({
     'Content-Type': 'application/json',
-    'x-auth' : this.authService.token
+    'x-auth' : this.authService.instructorToken
   });
 
    option: RequestOptions = new RequestOptions({
@@ -43,8 +43,7 @@ export class InstructorHttpService {
   });
 
   uploadProfileImage(image){
-    console.log(image);
-    return this.http.post(this.url + '/upload/', image,this.option)
+    return this.http.post(this.url + '/upload/', image, this.option)
       .map((res: Response) =>{
         return res.json();
       })

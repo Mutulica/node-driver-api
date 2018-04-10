@@ -17,6 +17,7 @@ export class EditScheduleComponent implements OnInit {
   public showHours = false;
   public selectedDay;
   public weekSchedule = [];
+  public editMode = false;
 
   private newDate = new Date();
   private year = this.newDate.getFullYear();
@@ -48,6 +49,14 @@ export class EditScheduleComponent implements OnInit {
     this.myProfile = this.instructorService.instructorProfile;
   }
 
+  onEditing(myProfile){
+    this.editMode = true;
+  }
+  onCloseSchedule(){
+    this.editMode = false;
+    this.showHours = false;
+    this.selectedDay = undefined;
+  }
   onChangeFrom(hours){
     const minutes = hours.getMinutes();
     const timer = hours.getHours();

@@ -1,3 +1,4 @@
+<div *ngIf="!loading">
 <div class="col-md-4" *ngFor="let student of students; let i = index">
   <div class="box box-widget widget-user">
     <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -15,25 +16,19 @@
             <span class="description-text">Sedinte Efectuate</span>
             <h5 class="description-header">{{sessionsCount[i]}}</h5>
           </div>
-          <!-- /.description-block -->
         </div>
-        <!-- /.col -->
         <div class="col-sm-4 border-right">
           <div class="description-block">
             <span class="description-text">Sedinte Ramase</span>
             <h5 class="description-header">{{ 16 - sessionsCount[i]}}</h5>
           </div>
-          <!-- /.description-block -->
         </div>
-        <!-- /.col -->
         <div class="col-sm-4">
           <div class="description-block">
-            <span class="description-text">Urmatoarea Sedinta</span>
+            <span class="description-text"></span>
             <h5 class="description-header">Next Date</h5>
           </div>
-          <!-- /.description-block -->
         </div>
-        <!-- /.col -->
         <div class="col-md-12">
           <button (click)="onSelectStudent(student, i)" type="button" class="btn btn-block btn-primary">Detalii</button>
         </div>
@@ -42,3 +37,10 @@
     </div>
   </div>
 </div>
+
+</div>
+<!-- Loading (remove the following to stop the loading)-->
+<div class="overlay" *ngIf="loading">
+  <i class="fa fa-refresh fa-spin"></i>
+</div>
+<!-- end loading -->

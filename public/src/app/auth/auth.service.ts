@@ -1,42 +1,35 @@
-import {Http, Headers, RequestOptions, Response} from '@angular/http';
-import { Injectable} from '@angular/core';
+import {Http, Response, Headers} from '@angular/http';
+import { Injectable, Output} from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+
 
 @Injectable()
 
 export class AuthService{
   //private url = "https://driving-school-app.herokuapp.com";
   private url = "http://localhost:3000";
-  public token: string;
+  public instructorToken: String;
+  public studentToken: string;
 
-  constructor(private http: Http){
-    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        this.token = currentUser && currentUser.token;
+  constructor(
+    private http: Http
+  ){
+    // var instructor = JSON.parse(localStorage.getItem('instructor'));
+    // var student = JSON.parse(localStorage.getItem('student'));
+    //     this.instructorToken = instructor && instructor.token;
+    //     this.studentToken = student && student.token;
   }
-
- //  headers: Headers = new Headers({
- //   'Content-Type': 'application/json',
- //   'x-auth' : this.token
- // });
- //
- //  option: RequestOptions = new RequestOptions({
- //   headers: this.headers
- // });
 
   instructorLogin(creditals){
     return this.http.post(this.url + '/instructor/login', creditals)
       .map((response: Response) => {
         // login successful if there's a jwt token in the response
         let token = response.json() && response.json().token;
+        const user = response.json() && response.json().user;
         if (token) {
-            // set token property
-            this.token = token;
-
-            // store username and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify({ username: creditals.email, token: token }));
-
+            this.storeUserData(token, user, 'instructor');
             // return true to indicate successful login
             return true;
         } else {
@@ -51,14 +44,10 @@ export class AuthService{
     return this.http.post(this.url + '/student/login', creditals)
       .map((response: Response) => {
         // login successful if there's a jwt token in the response
-        let token = response.json() && response.json().token;
+        const token = response.json() && response.json().token;
+        const user = response.json().student;
         if (token) {
-            // set token property
-            this.token = token;
-
-            // store username and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify({ username: creditals.email, token: token }));
-
+            this.storeUserData(token, user, 'student');
             // return true to indicate successful login
             return true;
         } else {
@@ -69,17 +58,25 @@ export class AuthService{
       .catch((err) => Observable.throw('Error'));
   }
 
-  logout() {
-    this.token = null;
-    localStorage.removeItem('currentUser');
-      // return this.http.delete(this.url + '/instructor/logout', this.option)
-      //  .map(
-      //    (response: Response) => {
-      //      return response;
-      //    }
-      //  )
-      //  .catch((err) => err.json());
-      // clear token remove user from local storage to log user out
-
+  storeUserData(token, user, owner){
+    // set token property]
+    if(owner === 'student'){
+      this.studentToken = token;
+    }else if(owner ==='instructor'){
+      this.instructorToken = token;
     }
+    // store username and jwt token in local storage to keep user logged in between page refreshes
+    localStorage.setItem(`${owner}_token`, token);
+    localStorage.setItem(owner, JSON.stringify(user));
+  }
+
+  setHeaders(owner){
+    let headers = new Headers();
+    let tokenOwner = owner;
+    headers.append('Content-Type', 'application/json');
+    headers.append('x-auth', localStorage.getItem(`${tokenOwner}_token`));
+    return {
+      headers: headers
+    };
+  }
 }

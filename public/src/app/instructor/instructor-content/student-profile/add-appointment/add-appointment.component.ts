@@ -17,11 +17,20 @@ import { UtilsService } from '../../../../shared/utils/utils.service';
 export class AddAppointmentComponent implements OnInit {
 
   public selectedMoment = new Date();
+  public minDate = new Date();
   private studentId = this.route.snapshot.params['id'];
   public schedule;
   private instructorSchedule = [];
   private instructorAppoint = [];
   private scheduleIndex : number;
+
+  public displayResult = false;
+  public result = {
+    message: '',
+    status: '',
+    from: null,
+    to: null
+  };
 
   public myFilter = this.utilsService.myFilter;
   public toggleSchedule = false;
@@ -41,7 +50,6 @@ export class AddAppointmentComponent implements OnInit {
     this.instructorHttpService.getMyProfile().subscribe(
       (res) => {
         this.instructorSchedule = res.instructorSchedule;
-        console.log(res);
       },
       err => console.log(err)
     );
@@ -117,6 +125,11 @@ export class AddAppointmentComponent implements OnInit {
             this.schedule.splice(this.scheduleIndex, 1);
             this.scheduleIndex = undefined;
             this.toggleSchedule = false;
+            this.displayResult = true;
+            this.result.message = "Solicitarea a fost trimisa!";
+            this.result.status = "success";
+            this.result.from = res.date.from;
+            this.result.to = res.date.to;
           },
           (err) => {
             console.log(err);

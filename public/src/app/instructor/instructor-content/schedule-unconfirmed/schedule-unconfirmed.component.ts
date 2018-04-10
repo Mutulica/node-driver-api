@@ -21,7 +21,7 @@ export class ScheduleUnconfirmedComponent implements OnInit {
 
   ngOnInit() {
 
-    this.instructorService.unAppoint.subscribe(
+    this.instructorHttpService.getUnconfirmedAppointments().subscribe(
       (res) => this.unconfirmedAppoint = res
     );
     this.unconfirmedAppoint = this.instructorService.unconfirmedAppoints;

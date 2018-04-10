@@ -18,8 +18,9 @@ export class StudentsComponent implements OnInit {
     private router: Router
   ) { }
 
-  students: StudentDetails[] = [];
-  sessionsCount = [];
+  public students: StudentDetails[] = [];
+  public sessionsCount = [];
+  public loading = true;
 
   ngOnInit() {
     this.instructorHttpService.getStudents()
@@ -29,6 +30,7 @@ export class StudentsComponent implements OnInit {
           // res.forEach((el) => {
           //   this.countPastAppointments(el["_id"]);
           // });
+          this.loading = false;
         },
         (err: any) => {
           console.log(err);

@@ -1,4 +1,4 @@
-<div class="col-md-6">
+<div class="col-md-6" *ngIf="!editMode">
   <div class="box box-primary">
     <div class="box-header with-border">
       <h3 class="box-title">Orar</h3>
@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6" *ngIf="editMode">
   <div class="form-group">
     <label>Selecteaza Ziua</label>
     <select  #select (change)="onSelectDay(select.value)" class="form-control">
@@ -44,7 +44,12 @@
         </h4>
         <owl-date-time-inline [(ngModel)]="timeTo" [stepHour]="1" [stepMinute]="10" [pickerType]="'timer'" (click)="onChangeTo(timeTo)"></owl-date-time-inline>
       </div>
-        <button class="btn btn-block btn-primary" type="button" (click)="onSavingSchedule()">Adauga in Orar</button>
+      <div class="form-group">
+        <button class="btn btn-block btn-primary <serv></serv>" type="button" (click)="onSavingSchedule()">Adauga in Orar</button>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-block btn-default" type="button" (click)="onCloseSchedule()">Inapoi</button>
+      </div>
     </div>
   </div>
 </div>

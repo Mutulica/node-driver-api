@@ -20,7 +20,7 @@ export class InstructorLoginComponent implements OnInit {
 
   ngOnInit() {
     // reset login status
-    this.authService.logout();
+    //this.authService.logoutInstructor();
   }
 
   onLogin(form: NgForm){

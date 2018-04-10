@@ -25,7 +25,7 @@ export class UtilsService {
 //Return only future appointments
  public filterPastAppoint = (el : Object): boolean => {
    const dateNow = new Date().getTime();
-   return el['date'].from > dateNow;
+   return el['date'].to > dateNow;
  }
 
  //Return only past appointments
@@ -67,7 +67,6 @@ export class UtilsService {
         hours = [];
         for(var y = this.convertMS(array[i].workingHours.from); y + sessionDuration <= this.convertMS(array[i].workingHours.to); y += sessionDuration){
           //var data = y * 60;
-          console.log(y);
           hours.push({from : parseFloat(this.convertToHours(y)).toFixed(2) , to: parseFloat(this.convertToHours(y + sessionDuration)).toFixed(2)});
         }
         return hours;

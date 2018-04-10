@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { UtilsService } from '../../../shared/utils/utils.service';
 import { StudentHttpService } from '../../studentHTTP.service';
+import { StudentService } from '../../studentService.service';
+
+import { Student } from '../../../models/student.model';
 
 @Component({
   selector: 'app-add-appointment',
@@ -10,14 +13,13 @@ import { StudentHttpService } from '../../studentHTTP.service';
 })
 export class AddAppointmentComponent implements OnInit {
 
-  private profile;
+  private profile: Student;
   public workingSchedule;
   public selectedMoment;
   public minDate = new Date();
   public schedule = [];
   private instructorAppoint = [];
   private scheduleIndex : number;
-  public loading = true;
   public displayResult = false;
   public result = {
     message: '',
@@ -32,21 +34,46 @@ export class AddAppointmentComponent implements OnInit {
 
   constructor(
     private studentHttp: StudentHttpService,
+    private studentService: StudentService,
     private utilsService: UtilsService
   ) {
 
   }
 
   ngOnInit() {
-    this.studentHttp.getStudentProfile().subscribe(
-      (res) => {
-        this.profile = res;
-        this.getInstructorAppointments(this.profile._instructorId);
-        this.getInstructor(res._instructorId);
-      }
-    );
+    this.profile = this.studentService.getUserData();
+    // if(this.studentService.myProfile){
+    //   this.profile = this.studentService.myProfile;
+    //   this.getInstructorAppointments(this.profile._instructorId);
+    //   this.getInstructor(this.profile._instructorId);
+    // }else{
+    //   this.studentHttp.myProfile.subscribe(
+    //     (res: Student) => {
+    //       this.profile = res;
+    //       this.getInstructorAppointments(this.profile._instructorId);
+    //       this.getInstructor(this.profile._instructorId);
+    //     }
+    //   );
+      this.getInstructorAppointments(this.profile._instructorId);
+      this.getInstructor(this.profile._instructorId);
+    }
 
-  }
+    // this.studentHttp.getStudentProfile().subscribe(
+    //   (res) => {
+    //     this.profile = res;
+    //     this.getInstructorAppointments(this.profile._instructorId);
+    //     this.getInstructor(res._instructorId);
+    //   }
+    // );
+    // this.profile = this.studentService.myProfile;
+    // this.studentHttp.myProfile.subscribe(
+    //   (res: Student) => {
+    //     this.profile = res;
+    //   }
+    // );
+    // this.getInstructorAppointments(this.profile._instructorId);
+    // this.getInstructor(this.profile._instructorId);
+  // }
 
   onSelectTime(i){
     this.scheduleIndex = i;
@@ -57,9 +84,6 @@ export class AddAppointmentComponent implements OnInit {
       .subscribe(
         (res) => {
           this.instructorAppoint = res;
-          setTimeout(() => {
-            this.loading = false;
-          }, 400);
         },
         (err) => {
           console.log(err);
@@ -79,7 +103,6 @@ export class AddAppointmentComponent implements OnInit {
   onInputFocus(){
     this.scheduleIndex = undefined;
     this.displayResult = false;
-    this.loading = true;
     this.getInstructorAppointments(this.profile._instructorId);
     if(this.selectedMoment > this.minDate){
         this.schedule = this.utilsService.buildScheduleFromMS(this.workingSchedule, this.selectedMoment.getDay());
@@ -108,7 +131,6 @@ export class AddAppointmentComponent implements OnInit {
   }
 
   addNewAppointment(){
-    this.loading = true;
     const scheduleFrom = this.schedule[this.scheduleIndex].from;
     const scheduleTo = this.schedule[this.scheduleIndex].to;
     if(this.selectedMoment != undefined){
@@ -135,7 +157,6 @@ export class AddAppointmentComponent implements OnInit {
             this.scheduleIndex = undefined;
             this.toggleSchedule = false;
             setTimeout(() => {
-              this.loading = false;
             }, 400);
             this.displayResult = true;
             this.result.message = "Solicitarea a fost trimisa!";

@@ -1,3 +1,6 @@
-<p>
-  instructor works!
-</p>
+<div *ngIf="instructor">
+  <p>{{instructor.firstName}}</p>
+  <p>{{instructor.lastName}}</p>
+  <p>{{instructor.email}}</p>
+  <p>{{instructor.phone}}</p>
+</div>

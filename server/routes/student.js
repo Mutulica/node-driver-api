@@ -35,7 +35,6 @@ router.post('/login', async (req, res) => {
 
 //Student Logout
 router.delete('/logout', studentAuth, (req, res) => {
-    console.log(req.user);
   req.user.removeToken(req.token).then(() => {
     res.status(200).send({message: 'User logged out'});
   },

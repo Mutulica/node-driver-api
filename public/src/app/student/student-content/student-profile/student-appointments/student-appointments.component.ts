@@ -17,7 +17,6 @@ export class StudentAppointmentsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.studentHttpService.getNextAppointments()
       .subscribe(
         (res) => {

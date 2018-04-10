@@ -1,19 +1,33 @@
 var {Student} = require('./../models/student');
 
-var studentAuth = (req, res, next) => {
-  var token = req.header('x-auth');
+var studentAuth = async (req, res, next) => {
 
-  Student.findByToken(token).then((user) => {
-    if(!user){
-      return Promise.reject();
+  var token = req.header('x-auth');
+  console.log(token);
+  try {
+    const student = await Student.findByToken(token);
+    console.log(student);
+    if(!student){
+      return res.status(404).send('Not Found');
     }
-    console.log(user);
-    req.user = user;
+    req.user = student;
     req.token = token;
     next();
-  }).catch((err) => {
-    res.status(401).send();
-  });
+  } catch (e) {
+    res.status(401).send(e);
+  }
+
+  // Student.findByToken(token).then((user) => {
+  //   console.log(user);
+  //   if(!user){
+  //     return Promise.reject();
+  //   }
+  //   req.user = user;
+  //   req.token = token;
+  //   next();
+  // }).catch((err) => {
+  //   res.status(401).send(err);
+  // });
 };
 
 module.exports = {

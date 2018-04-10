@@ -92,7 +92,7 @@
                 <strong>{{daysOfWeek[work.day]}}</strong>
 
                 <p class="text-muted">
-                 {{work.workingHours.from}} - {{work.workingHours.to}}
+                 {{work.workingHours.from | date: 'HH: mm'}} - {{work.workingHours.to | date: 'HH: mm'}}
                 </p>
               <div>
               </div>
