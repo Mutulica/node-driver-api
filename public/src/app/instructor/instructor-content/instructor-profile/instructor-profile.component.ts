@@ -25,11 +25,7 @@ export class InstructorProfileComponent implements OnInit {
 
   ngOnInit() {
 
-    this.instructorService.myProfile.subscribe(
-      (res) => this.myProfile = res,
-      (err) => console.log(err)
-    );
-    this.myProfile = this.instructorService.instructorProfile;
+    this.myProfile = this.instructorService.getUserData();
   }
 
 }

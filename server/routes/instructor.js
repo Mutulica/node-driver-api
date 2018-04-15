@@ -7,6 +7,55 @@ var {Schedule} = require('../models/schedule');
 var {autenticate} = require('../middleweare/autenticate');
 const {ObjectID} = require('mongodb');
 
+const multer = require('multer');
+const path = require('path');
+const crypto = require('crypto');
+const upload = multer({dest: 'uploads/'});
+const multerConf = {
+  storage: multer.diskStorage({
+    destination: (req, file, next) => {
+      next(null, 'uploads/');
+    },
+    filename: (req ,file, next) => {
+      const ext = file.mimetype.split('/')[1];
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString('hex') + path.extname(file.originalname);
+          next(null, filename);
+      });
+    }
+  }),
+  fileFilter: (req, file, next) => {
+    if(!file){
+      next();
+    }
+    const image = file.mimetype.startsWith('image/');
+    if(image){
+      next(null, true);
+    }else{
+      next({message: 'File not suported'}, false);
+    }
+  }
+}
+
+router.patch("/image", [autenticate, multer(multerConf).single('profileImage')], async (req, res, next) => {
+  const _id = req.user._id;
+  if(!ObjectID.isValid(_id)){
+    return res.status(404).send();
+  }
+
+  try {
+    var instructor = await Instructor.findOneAndUpdate({_id}, {$set: {profileImage: req.file.path}}, {new: true});
+    if(!instructor){
+      return res.status(404).send('Image cannot be uploaded');
+    }
+    res.status(200).send(instructor);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
 
 //Register instructor
 router.post('/register', async (req, res) => {
@@ -34,13 +83,18 @@ router.post('/login', async (req, res) => {
 });
 
 //instructor Logout
-router.delete('/logout', autenticate, (req, res) => {
-  req.user.removeToken(req.token).then(() => {
-    res.status(200).send();
-  },
-  (e) => {
-    res.status(400).send(err)
-  });
+router.delete('/logout', autenticate, async (req, res) => {
+
+  try {
+      const user = await req.user.removeToken(req.token);
+      if(!user){
+        return res.status(200).send({message: 'Not found'})
+      }
+      res.status(200).send({message: 'User loged out'})
+  } catch (e) {
+    res.status(400).send(e);
+  }
+
 });
 
 //GET Instructor details
@@ -58,10 +112,13 @@ router.get('/me', autenticate, async (req, res) => {
 });
 
 //Update Instructor details
-router.patch('/me', autenticate, async (req, res) => {
+router.patch('/me', [autenticate, multer(multerConf).single('profileImage')], async (req, res) => {
+  console.log(req.file);
   const _id = req.user._id;
   const body = req.body;
-
+  if(req.file){
+    body.profileImage = req.file.path;
+  }
   if(!ObjectID.isValid(_id)){
     return res.status(404).send();
   }

@@ -10,11 +10,11 @@ export class StudentContentComponent implements OnInit {
 
   public myProfile;
   constructor(
-    private stundetservice: StudentService
+    private stundetService: StudentService
   ) { }
 
   ngOnInit() {
-    this.myProfile = this.stundetservice.getUserData();
+    this.myProfile = this.stundetService.getUserData();
   }
 
 }

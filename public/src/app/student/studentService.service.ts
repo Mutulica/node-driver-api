@@ -12,11 +12,11 @@ constructor(
   public studentHttp: StudentHttpService
 ){
 
-  this.studentHttp.myProfile.subscribe(
-    (res: Student) => {
-      this.myProfile =  res;
-    }
-  )
+  // this.studentHttp.myProfile.subscribe(
+  //   (res: Student) => {
+  //     this.myProfile =  res;
+  //   }
+  // )
 }
 
   getUserData(){

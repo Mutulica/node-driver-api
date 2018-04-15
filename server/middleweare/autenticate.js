@@ -1,19 +1,21 @@
 var {Instructor} = require('./../models/instructor');
 
-var autenticate = (req, res, next) => {
+var autenticate = async (req, res, next) => {
+
   var token = req.header('x-auth');
 
-  Instructor.findByToken(token).then((user) => {
-    if(!user){
-      return Promise.reject();
+  try {
+    const instructor = await Instructor.findByToken(token);
+    if(!instructor){
+      return res.status(404).send('Not Found');
     }
-
-    req.user = user;
+    req.user = instructor;
     req.token = token;
     next();
-  }).catch((err) => {
-    res.status(401).send();
-  });
+  } catch (e) {
+    res.status(401).send(e);
+  }
+  
 };
 
 module.exports = {

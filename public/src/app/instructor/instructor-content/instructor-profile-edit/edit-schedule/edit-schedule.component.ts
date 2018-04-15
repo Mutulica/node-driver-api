@@ -39,14 +39,9 @@ export class EditScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.instructorService.myProfile.subscribe(
-      (res) => {
-        this.myProfile = res;
-        console.log(res);
-      },
-      err => console.log(err)
-    );
-    this.myProfile = this.instructorService.instructorProfile;
+
+      this.myProfile = this.instructorService.getUserData();
+
   }
 
   onEditing(myProfile){
@@ -70,27 +65,6 @@ export class EditScheduleComponent implements OnInit {
     const buildDate = new Date(this.year, this.month, this.day, timer, minutes);
      this.timeToInMl = buildDate.getTime();
   }
-
-  //  msToTime(duration) {
-  //     var milliseconds = (duration%1000)/100
-  //         , seconds = (duration/1000)%60
-  //         , minutes = (duration/(1000*60))%60
-  //         , hours = (duration / (1000*60*60) )%24;
-  //
-  //         hours = (hours < 10) ?  hours : hours;
-  //      minutes = (minutes < 10) ?  minutes : minutes;
-  //      seconds = (seconds < 10) ? seconds : seconds;
-  //
-  //     return minutes;
-  // }
-  //
-  //
-  //
-  //  minutesToMilliseconds(minutes) {
-  //   var millis = Math.floor(minutes * 60000);
-  //   var seconds = ((millis % 60000) / 1000).toFixed(0);
-  //   return millis;
-  // }
 
   onSelectDay(option){
     if(this.daysOfWeek.indexOf(option) > 0){
@@ -124,6 +98,7 @@ export class EditScheduleComponent implements OnInit {
     if(this.timeFromInMl !== undefined && this.timeToInMl !== undefined){
       this.instructorHttpService.editInstructorProfile(this.myProfile).subscribe(
         (res) => {
+          localStorage.setItem('instructor', JSON.stringify(res));
           console.log(res);
         },
         (err) => {

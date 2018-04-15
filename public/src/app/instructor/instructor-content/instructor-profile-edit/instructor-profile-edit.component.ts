@@ -36,20 +36,8 @@ export class InstructorProfileEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.instructorHttpService.getMyProfile().subscribe(
-    //   (res) => {
-    //     this.myProfile = res;
-    //   },
-    //   (err) => console.log(err)
-    // )
-    this.instructorService.myProfile.subscribe(
-      (res) => {
-        this.myProfile = res;
-        console.log(res);
-      },
-      err => console.log(err)
-    );
-    this.myProfile = this.instructorService.instructorProfile;
+    this.myProfile = this.instructorService.getUserData();
+
   }
 
   onEditing(profile){
@@ -75,6 +63,7 @@ export class InstructorProfileEditComponent implements OnInit {
       profileDescription: String
     };
 
+    //form.value.profileImage = this.
     if(form.value.phone !== ''){
       formDetails.phone = form.value.phone;
     }
@@ -91,9 +80,12 @@ export class InstructorProfileEditComponent implements OnInit {
 
     if(form.dirty && !form.untouched){
       this.loading = true;
+      //this.onSubmit();
       this.instructorHttpService.editInstructorProfile(formDetails)
         .subscribe(
           (res) => {
+            console.log(res);
+            localStorage.setItem('instructor', JSON.stringify(res));
             this.loading = false;
             this.displayResult = 'success';
             this.resultMessage = 'Modificarile au fost salvate cu success.';
@@ -117,57 +109,23 @@ export class InstructorProfileEditComponent implements OnInit {
         );
 
     }
-    // this.onSubmit();
   }
 
-  // onFileChange(event) {
-  //   let reader = new FileReader();
-  //   if(event.target.files && event.target.files.length > 0) {
-  //     let file = event.target.files[0];
-  //     // console.log(reader.readAsDataURL(file));
-  //     reader.readAsDataURL(file);
-  //     reader.onload = () => {
-  //       this.form.get('profileImage').setValue({
-  //         filename: file.name,
-  //         filetype: file.type,
-  //         value: reader.result.split(',')[1]
-  //       });
-  //     };
-  //   }
-  //   console.log(event);
-  // }
+
 onFileChange(event){
-
   this.selectedfile = <File>event.target.files[0];
-  console.log(this.selectedfile);
 }
-
-//   onSubmit() {
-//   const formModel = this.form.value;
-//   formModel.name = 'file';
-//   console.log(formModel);
-//   this.loading = true;
-//   this.instructorHttpService.uploadProfileImage(formModel.profileImage).subscribe(
-//     (res) => {
-//       this.createImageFromBlob(res);
-//     }
-//   );
-// }
-
-// createImageFromBlob(image) {
-//       let reader = new FileReader();
-//        if (image) {
-//           reader.readAsDataURL(image.value);
-//        }
-//        console.log(reader);
-// }
 
 onSubmit() {
   const fd = new FormData();
-  fd.append('image', this.selectedfile, this.selectedfile.name);
-  this.instructorHttpService.uploadProfileImage(this.selectedfile).subscribe(
-    (res) => console.log(res)
-  );
+  if(this.selectedfile){
+    fd.append('profileImage', this.selectedfile, this.selectedfile.name);
+    this.instructorHttpService.uploadProfileImage(fd).subscribe(
+      (res) => {
+        localStorage.setItem('instructor', JSON.stringify(res));
+      }
+    );
+  }
 }
 
   clearFile() {

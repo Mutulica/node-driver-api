@@ -27,12 +27,14 @@ app.get('/', (req, res) => {
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.status(200).send('App Works');
+  next();
 });
 
 app.use('/instructor', instructorRoutes);
 app.use('/student', studentRoutes);
 app.use('/public', publicRoutes);
 app.use('/upload', uploadRoutes);
+app.use('/uploads', express.static('uploads'));
 
 
 app.listen(port, () => {

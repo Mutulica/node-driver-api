@@ -3,6 +3,7 @@ var router = express.Router();
 // var {mongoose} = require ('../db/mongoose.js');
 
 const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
 const path = require('path');
 const crypto = require('crypto');
 // const GridFsStorage = require('multer-gridfs-storage');
@@ -15,7 +16,7 @@ var {autenticate} = require('../middleweare/autenticate');
 const multerConf = {
   storage: multer.diskStorage({
     destination: (req, file, next) => {
-      next(null, './server/uploads');
+      next(null, './uploads');
     },
     filename: (req ,file, next) => {
       const ext = file.mimetype.split('/')[1];
@@ -71,11 +72,14 @@ const multerConf = {
 //   }
 // });
 
+router.post("/image/", upload.single('profileImage'), (req, res, next) => {
+  consoloe.log(req.file);
+});
 
 //const upload = multer({storage: storage});
 //Post route
 router.post('/', [autenticate, multer(multerConf).single('image')], (req, res) => {
-
+  console.log(req.file);
   var _id = req.user._id;
 
   if(req.file){

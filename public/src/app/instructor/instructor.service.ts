@@ -37,4 +37,8 @@ export class InstructorService {
     this.unconfirmedAppoints = res;
     this.unAppoint.next(res);
   }
+
+  getUserData(){
+    return JSON.parse(localStorage.getItem('instructor'));
+  }
 }

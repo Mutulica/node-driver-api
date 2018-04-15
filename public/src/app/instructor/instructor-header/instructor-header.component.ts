@@ -17,7 +17,7 @@ export class InstructorHeaderComponent implements OnInit {
   public completedAppoint = [];
   public unconfirmedAppoint = [];
   constructor(
-    private route: Router,
+    private router: Router,
     private instructorHttpService: InstructorHttpService,
     private instructorService: InstructorService,
     private authService: AuthService,
@@ -25,11 +25,7 @@ export class InstructorHeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.instructorHttpService.getMyProfile()
-      .subscribe((res) => {
-        this.instructorDetails = res;
-      });
-
+      this.instructorDetails = this.instructorService.getUserData();
       this.instructorHttpService.getUnconfirmedAppointments().subscribe(
         (res) => {
           this.unconfirmedAppoint = res;
@@ -46,16 +42,17 @@ export class InstructorHeaderComponent implements OnInit {
 
   onLogout(){
 
-    //this.authService.logoutInstructor();
-    // this.authService.logout().subscribe(
-    //   (res) => {
-    //     this.authService.token = null;
-    //     localStorage.removeItem('currentUser');
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //   }
-    // );
+    this.instructorHttpService.logout().subscribe(
+      (res) => {
+        this.router.navigate(['instructor-login']);
+        this.authService.instructorToken = null;
+        localStorage.removeItem('instructor_token');
+        localStorage.removeItem('instructor');
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
 }

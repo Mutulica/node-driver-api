@@ -3,10 +3,8 @@ var {Student} = require('./../models/student');
 var studentAuth = async (req, res, next) => {
 
   var token = req.header('x-auth');
-  console.log(token);
   try {
     const student = await Student.findByToken(token);
-    console.log(student);
     if(!student){
       return res.status(404).send('Not Found');
     }

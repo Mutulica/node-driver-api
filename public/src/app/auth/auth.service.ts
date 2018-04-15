@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 export class AuthService{
   //private url = "https://driving-school-app.herokuapp.com";
   private url = "http://localhost:3000";
-  public instructorToken: String;
+  public instructorToken: string;
   public studentToken: string;
 
   constructor(
@@ -27,7 +27,7 @@ export class AuthService{
       .map((response: Response) => {
         // login successful if there's a jwt token in the response
         let token = response.json() && response.json().token;
-        const user = response.json() && response.json().user;
+        const user = response.json().instructor;
         if (token) {
             this.storeUserData(token, user, 'instructor');
             // return true to indicate successful login
@@ -73,7 +73,7 @@ export class AuthService{
   setHeaders(owner){
     let headers = new Headers();
     let tokenOwner = owner;
-    headers.append('Content-Type', 'application/json');
+    //headers.append('Content-Type', 'application/json');
     headers.append('x-auth', localStorage.getItem(`${tokenOwner}_token`));
     return {
       headers: headers
